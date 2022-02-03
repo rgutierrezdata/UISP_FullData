@@ -53,7 +53,7 @@ exports.insertClient = async (firstName, lastName, companyName, displayName, ema
   var bool = true;
 
   const query = `
-    INSERT INTO uispData
+    INSERT INTO uispClients
     (
       FirstName, 
       LastName,
