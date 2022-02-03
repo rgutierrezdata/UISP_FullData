@@ -959,6 +959,7 @@ module.exports.migrateData = async (_, res) => {
 
       let client_prices = client.SubscriptionPrice.split(",");
       let client_codes = client.SubscriptionCodes.split(",");
+      let subscriptions_id = "";
       //console.log("ENTRO EN LA FUNCION PARA VARIAS SUBSCRIPCIONES");
       //console.log("ESTADOS_SUBSCRIPCION ===>", client_subscriptions);
       //console.log("SERVICIOS_SUBSCRIPCION ===>", client_services);
@@ -1268,11 +1269,13 @@ module.exports.migrateData = async (_, res) => {
             zoho_client_id = create_client.subscription.customer.customer_id;
 
             //Id de suscripción
-            const zoho_subscription_id = create_client.subscription.subscription_id;
-
+            subscriptions_id = create_client.subscription.subscription_id;
+            
             //Actualizar registro en base de datos con ID cliente de Zoho
             if(create_client) {
               const update_client = await uisp.updateCustomer(client.uispdbID, zoho_client_id);
+              
+              await uisp.updateClientSubscriptions(client.uispdbID, subscriptions_id);
               if(update_client) {
                 console.log("CLIENTE_ACTUALIZADO ===>", client.uispdbID, zoho_client_id);
               }
@@ -1374,6 +1377,10 @@ module.exports.migrateData = async (_, res) => {
               //Añadir subscripción al cliente creado en Zoho Subscriptions
               const create_client = await zoho.addNewSubscription(domain_url, organizationid, oauthtoken, zoho_body);
               console.log("SUBSCRIPCION_ANADIDA ===>", create_client.subscription.subscription_id);
+              
+              subscriptions_id = subscriptions_id + "," + create_client.subscription.subscription_id;
+              await uisp.updateClientSubscriptions(client.uispdbID, subscriptions_id);
+              
               /*
                 Extraer id de subscripción de cliente de Zoho Subscriptions
                 const zoho_client_id = create_client.subscription.customer.customer_id;
@@ -1389,7 +1396,6 @@ module.exports.migrateData = async (_, res) => {
             }, 2000)
           }
         }
-
       }
       
     
