@@ -157,7 +157,7 @@ exports.getAllData = async() => {
     //SELECT TOP (1) * FROM [uispdb].[dbo].[uispData] ORDER BY uispdbID DESC
     //SELECT * FROM uispData WHERE uispdbID = 7008
     
-    sql.query(connectionString, 'SELECT * FROM uispData WHERE uispdbID BETWEEN 1001 AND 1500', (err, rows) => {
+    sql.query(connectionString, 'SELECT * FROM uispData WHERE uispdbID BETWEEN 1502 AND 2000', (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getAllData - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
@@ -214,7 +214,7 @@ exports.getCreatedClients = async() => {
 
 exports.resetCustomer = async(uispdbID) => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `UPDATE uispData SET CustomerIDZoho = null, IsSingleCustomer = 0, IsCreatedZoho = 0, IsDebtUpdated = 0 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
+    sql.query(connectionString, `UPDATE uispData SET CustomerIDZoho = null, ZohoSubscriptionID = null, IsSingleCustomer = 0, IsCreatedZoho = 0, IsDebtUpdated = 0 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getAllData - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
@@ -246,6 +246,20 @@ exports.updateClientDebt = async(CustomerIDUISP) => {
     sql.query(connectionString, `UPDATE uispData set IsDebtUpdated = 1 WHERE CustomerIDUISP = ${CustomerIDUISP}`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: updateClientDebt - Error ${err}`);
+				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+}
+
+//Actualización de campos de suscripciones
+exports.updateClientSubscriptions = async(uispdbID, subscriptions_id) => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `UPDATE UISPData SET ZohoSubscriptionID = '${subscriptions_id}' WHERE uispdbID = ${uispdbID}`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: updateClientSubscriptions - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
 				return reject("Error");
 			}
