@@ -49,7 +49,7 @@ exports.getClientService = async(UISP_client_id) => {
 }
 
 //Funciones para trabajar base de datos local ===> uispdb
-exports.insertClient = async (firstName, lastName, companyName, displayName, email, username, phone, country, state, city, street, zip, customerID_UISP, clientType, clientTypeName_UISP, clientTypeName_Zoho, subscription_status, subscription_status_name_UISP, subscription_status_name_Zoho, subscription_price, currency_code, subscription_codes, subscription_description, account_balance, account_credit, account_outstanding, latitude, longitude, google_maps_url, node, organizationName, servicePlanID, activeFrom, RIF) => {
+exports.insertClient = async (firstName, lastName, companyName, displayName, email, username, phone, country, state, city, street, zip, customerID_UISP, clientType, clientTypeName_UISP, clientTypeName_Zoho, subscription_status, subscription_status_name_UISP, subscription_status_name_Zoho, subscription_price, currency_code, subscription_codes, subscription_description, account_balance, account_credit, account_outstanding, UISP_subscription_ID, service_plan_period_ID, service_plan_period, latitude, longitude, google_maps_url, node, organizationName, servicePlanID, activeFrom, RIF) => {
   var bool = true;
 
   const query = `
@@ -81,6 +81,9 @@ exports.insertClient = async (firstName, lastName, companyName, displayName, ema
       AccountBalance,
       AccountCredit,
       AccountOutstanding,
+      UISPSubscriptionID,
+      ServicePlanPeriodID,
+      ServicePlanPeriod,
       Latitude,
       Longitude,
       GoogleMapsURL,
@@ -118,6 +121,9 @@ exports.insertClient = async (firstName, lastName, companyName, displayName, ema
       ${account_balance},
       ${account_credit},
       ${account_outstanding},
+      ${UISP_subscription_ID},
+      ${service_plan_period_ID},
+      ${service_plan_period},
       ${latitude}, 
       ${longitude}, 
       ${google_maps_url}, 
