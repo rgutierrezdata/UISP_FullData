@@ -7,3 +7,5 @@ Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscrip
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error El cliente “OPTI-COLOR # 2, C.A.” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-02T19:30:35.413Z"}
 {"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Invalid value passed for Display Name","timestamp":"2022-02-02T19:49:27.936Z"}
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error El cliente “MARIHEN YESENIA GONZALEZ ARAUJO” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-02T19:55:33.614Z"}
+Resuelto{"level":"info","message":"File: zoho.js - Function Name: createCustomerWithoutSubscription - Error El cliente “EDGAR ABDUL MASSIH CHAHDA” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-03T21:40:17.283Z"}
+{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Invalid value passed for Email","timestamp":"2022-02-03T21:44:42.705Z"}
