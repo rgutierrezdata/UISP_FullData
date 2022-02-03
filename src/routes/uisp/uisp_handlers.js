@@ -220,10 +220,16 @@ module.exports.fetchData = async (req, res) => {
       let subscription_codes = "";
       let subscription_description = "";
       let currency_code = "";
-      
+
       let servicePlanID = "";
       let activeFrom = "";
-  
+
+      //Campos añadidos a la lógica de migración para uso en integraciones con Zoho
+      //El campo ZohoSubscriptionsID se debe llenar durante la lógica de migración
+      let UISP_subscription_ID = "";
+      let service_plan_period_ID = "";
+      let service_plan_period = "";
+      
       if(user_service_info.length !== 0) {
         //Extraer información de todas las subscripciones
   
@@ -542,6 +548,42 @@ module.exports.fetchData = async (req, res) => {
           }
         }
 
+        //Ids de suscripciones en UISP
+        for(subscription of user_service_info) {
+          if(subscription.id !== null) {
+            if(UISP_subscription_ID.length === 0) {
+              UISP_subscription_ID = subscription.id;
+            }
+            else {
+              UISP_subscription_ID = UISP_subscription_ID + "," + subscription.id;
+            }
+          }
+        }
+
+        //Service plan period id
+        for(subscription of user_service_info) {
+          if(subscription.servicePlanPeriodId !== null) {
+            if(service_plan_period_ID.length === 0) {
+              service_plan_period_ID = subscription.servicePlanPeriodId;
+            }
+            else {
+              service_plan_period_ID = service_plan_period_ID + "," + subscription.servicePlanPeriodId;
+            }
+          }
+        }
+
+        //Service plan period
+        for(subscription of user_service_info) {
+          if(subscription.servicePlanPeriod !== null) {
+            if(service_plan_period.length === 0) {
+              service_plan_period = subscription.servicePlanPeriod;
+            }
+            else {
+              service_plan_period = service_plan_period + "," + subscription.servicePlanPeriod;
+            }
+          }
+        }
+
         //Transformación final subscription_status, servicePlanID, activeFrom
         subscription_status = `'${subscription_status}'`;
         subscription_price = `'${subscription_price}'`;
@@ -550,6 +592,9 @@ module.exports.fetchData = async (req, res) => {
         subscription_description = `'${subscription_description}'`
         servicePlanID = `'${servicePlanID}'`;
         activeFrom = `'${activeFrom}'`;
+        UISP_subscription_ID = `'${UISP_subscription_ID}'`
+        service_plan_period_ID = `'${service_plan_period_ID}'`
+        service_plan_period = `'${service_plan_period}'`
     
         //console.log("SUBSCRIPTION_STATUS ===>",subscription_status);
         //console.log("SERVICE_PLAND_ID ===>",servicePlanID);
@@ -641,6 +686,9 @@ module.exports.fetchData = async (req, res) => {
         subscription_description = null;
         servicePlanID = null;
         activeFrom = null;
+        UISP_subscription_ID = null;
+        service_plan_period_ID = null;
+        service_plan_period = null;
       }
       
       //Custom fields
@@ -657,7 +705,7 @@ module.exports.fetchData = async (req, res) => {
       let organizationName = (client.organizationName) ? `'${client.organizationName.trim()}'` : null;
   
       //Insertar cliente en base de datos
-      const insert_client = await uisp.insertClient(firstName, lastName, companyName, displayName, email, username, phone, country, state, city, street, zip, customerID_UISP, clientType, clientTypeName_UISP, clientTypeName_Zoho, subscription_status, subscription_status_name_UISP, subscription_status_name_Zoho, subscription_price, currency_code, subscription_codes, subscription_description, account_balance, account_credit, account_outstanding, latitude, longitude, google_maps_url, node, organizationName, servicePlanID, activeFrom, RIF);
+      const insert_client = await uisp.insertClient(firstName, lastName, companyName, displayName, email, username, phone, country, state, city, street, zip, customerID_UISP, clientType, clientTypeName_UISP, clientTypeName_Zoho, subscription_status, subscription_status_name_UISP, subscription_status_name_Zoho, subscription_price, currency_code, subscription_codes, subscription_description, account_balance, account_credit, account_outstanding, UISP_subscription_ID, service_plan_period_ID, service_plan_period, latitude, longitude, google_maps_url, node, organizationName, servicePlanID, activeFrom, RIF);
   
       if(insert_client) {
         inserted_client = inserted_client + 1;
