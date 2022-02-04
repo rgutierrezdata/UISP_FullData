@@ -874,7 +874,8 @@ module.exports.migrateData = async (_, res) => {
           "first_name": client.FirstName,
           "last_name": client.LastName,
           "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-          "email": "test" + client.Email,
+          "email": `testmailbox2022cliente${client.CustomerIDUISP}`,
+          //"email": "test" + client.Email,
           "mobile": client.Phone,
           "billing_address": {
             "country": client.Country,
@@ -899,7 +900,8 @@ module.exports.migrateData = async (_, res) => {
         zoho_body =  {
           "display_name": client.DisplayName,
           "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-          "email": "test" + client.Email,
+          "email": `testmailbox2022cliente${client.CustomerIDUISP}`,
+          //"email": "test" + client.Email,
           "mobile": client.Phone,
           "billing_address": {
             "country": client.Country,
@@ -1011,7 +1013,8 @@ module.exports.migrateData = async (_, res) => {
             "first_name": client.FirstName,
             "last_name": client.LastName,
             "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-            "email": "test" + client.Email,
+            "email": `testmailbox2022cliente${client.CustomerIDUISP}`,
+            //"email": "test" + client.Email,
             "mobile": client.Phone,
             "billing_address": {
               "country": client.Country,
@@ -1036,7 +1039,8 @@ module.exports.migrateData = async (_, res) => {
           zoho_body =  {
             "display_name": client.DisplayName,
             "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-            "email": "test" + client.Email,
+            "email": `testmailbox2022cliente${client.CustomerIDUISP}`,
+            //"email": "test" + client.Email,
             "mobile": client.Phone,
             "billing_address": {
               "country": client.Country,
@@ -1184,7 +1188,8 @@ module.exports.migrateData = async (_, res) => {
                   "first_name": client.FirstName,
                   "last_name": client.LastName,
                   "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-                  "email": "test" + client.Email,
+                  "email": `testmailbox2022cliente${client.CustomerIDUISP}`,
+                  //"email": "test" + client.Email,
                   "mobile": client.Phone,
                   "billing_address": {
                     "country": client.Country,
@@ -1223,7 +1228,8 @@ module.exports.migrateData = async (_, res) => {
                 "customer": {
                   "display_name": client.DisplayName,
                   "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-                  "email": "test" + client.Email,
+                  "email": `testmailbox2022cliente${client.CustomerIDUISP}`,
+                  //"email": "test" + client.Email,
                   "mobile": client.Phone,
                   "billing_address": {
                     "country": client.Country,
