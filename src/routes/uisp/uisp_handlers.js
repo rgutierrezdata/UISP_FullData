@@ -1084,6 +1084,19 @@ module.exports.migrateData = async (_, res) => {
   
             await zoho.addCreditViaPayment(domain_url, organizationid, oauthtoken, client_details)
           }
+
+          //Actualización de campo de suscripciones
+          for(service of client_services) {
+            if (code_array_ns.includes(Number(service)) === true) {
+              if(subscriptions_id.length === 0) {
+                subscriptions_id = 'no_creada';
+              }
+              else {
+                subscriptions_id = subscriptions_id + "," + 'no_creada';
+              }
+            }
+          }
+          await uisp.updateClientSubscriptions(client.uispdbID, subscriptions_id);
         }
       }
       else {
@@ -1092,6 +1105,16 @@ module.exports.migrateData = async (_, res) => {
 
         for(let i = 0; i < client_subscriptions.length; i++) {
           () => console.log("customer_created", customer_created)
+
+          if(client_subscriptions[i] === "2" || code_array_ns.includes(Number(client_services[i])) === true) {
+            if(subscriptions_id.length === 0) {
+              subscriptions_id = 'no_creada';
+            }
+            else {
+              subscriptions_id = subscriptions_id + "," + 'no_creada';
+            }
+            await uisp.updateClientSubscriptions(client.uispdbID, subscriptions_id);
+          }
          
           if(customer_created === false && (client_subscriptions[i] === "1" || client_subscriptions[i] === "3") && code_array_ns.includes(Number(client_services[i])) === false) {
             console.log(customer_created)
@@ -1275,7 +1298,12 @@ module.exports.migrateData = async (_, res) => {
             zoho_client_id = create_client.subscription.customer.customer_id;
 
             //Id de suscripción
-            subscriptions_id = create_client.subscription.subscription_id;
+            if(subscriptions_id.length === 0) {
+              subscriptions_id = create_client.subscription.subscription_id;
+            }
+            else {
+              subscriptions_id = subscriptions_id + "," + create_client.subscription.subscription_id;
+            }
             
             //Actualizar registro en base de datos con ID cliente de Zoho
             if(create_client) {
@@ -1384,7 +1412,13 @@ module.exports.migrateData = async (_, res) => {
               const create_client = await zoho.addNewSubscription(domain_url, organizationid, oauthtoken, zoho_body);
               console.log("SUBSCRIPCION_ANADIDA ===>", create_client.subscription.subscription_id);
               
-              subscriptions_id = subscriptions_id + "," + create_client.subscription.subscription_id;
+              if(subscriptions_id.length === 0) {
+                subscriptions_id = create_client.subscription.subscription_id;
+              }
+              else {
+                subscriptions_id = subscriptions_id + "," + create_client.subscription.subscription_id;
+              }
+              
               await uisp.updateClientSubscriptions(client.uispdbID, subscriptions_id);
               
               /*
