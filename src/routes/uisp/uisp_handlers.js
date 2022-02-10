@@ -306,7 +306,7 @@ module.exports.fetchData = async (req, res) => {
         }
 
         //SubscriptionCodes ===? subscription_codes
-        let code_array_ns = [1, 9, 10, 11, 12, 13, 16, 18, 19, 22, 25, 26, 29, 31, 32, 33, 34, 38, 39, 40, 41, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 74, 75, 76, 77, 78, 79, 80, 81, 82, 85, 100, 124, 127, 135, 136, 137, 139, 143, 145, 147, 149, 157, 158, 159, 176, 178, 179, 180, 181, 187, 200, 201, 202, 205, 206, 207, 208, 209, 210, 211, 212, 214, 215, 216, 234, 235, 237, 239, 241, 243];
+        let code_array_ns = [1, 9, 10, 11, 12, 13, 16, 18, 19, 22, 25, 26, 38, 39, 40, 41, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 74, 75, 76, 77, 78, 79, 80, 81, 82, 85, 100, 124, 127, 135, 136, 137, 139, 143, 145, 147, 149, 157, 158, 176, 178, 179, 180, 181, 187, 200, 201, 202, 205, 206, 207, 208, 209, 210, 211, 212, 214, 215, 216, 234, 235, 237, 239, 241, 243];
 
         for(subscription of user_service_info) {
           let code = "";
@@ -339,11 +339,26 @@ module.exports.fetchData = async (req, res) => {
             else if(subscription.servicePlanId === 23) {
               code ="WC2D";
             } 
+            else if(subscription.servicePlanId === 29) {
+              code ="WC12";
+            }
+            else if(subscription.servicePlanId === 31) {
+              code ="WC2";
+            }
+            else if(subscription.servicePlanId === 32) {
+              code ="WC4";
+            }
+            else if(subscription.servicePlanId === 33) {
+              code ="WC6";
+            }
+            else if(subscription.servicePlanId === 34) {
+              code ="WC8";
+            }
             else if(subscription.servicePlanId === 35) {
               code ="WC10";
             } 
             else if(subscription.servicePlanId === 89) {
-              code ="FULLDATAULTRA";
+              code ="FRULTRA";
             } 
             else if(subscription.servicePlanId === 104) {
               code ="FRPLUS";
@@ -402,6 +417,9 @@ module.exports.fetchData = async (req, res) => {
             else if(subscription.servicePlanId === 156) {
               code ="FRPLUS";
             } 
+            else if(subscription.servicePlanId === 159) {
+              code ="FRLITE";
+            }
             else if(subscription.servicePlanId === 160) {
               code ="FPPLUS";
             } 
@@ -536,6 +554,9 @@ module.exports.fetchData = async (req, res) => {
             } 
             else if(subscription.servicePlanId === 244) {
               code ="FPLITE";
+            }
+            else if(subscription.servicePlanId === 246) {
+              code ="FC60D";
             }
           }
 
@@ -968,7 +989,7 @@ module.exports.migrateData = async (_, res) => {
       //console.log("FECHAS_SUBSCRIPCION ===>", client_activeFrom);
 
       //Validción para determinar si al menos se debe crear una suscripción
-      let code_array_ns = [1, 9, 10, 11, 12, 13, 16, 18, 19, 22, 25, 26, 29, 31, 32, 33, 34, 38, 39, 40, 41, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 74, 75, 76, 77, 78, 79, 80, 81, 82, 85, 100, 124, 127, 135, 136, 137, 139, 143, 145, 147, 149, 157, 158, 159, 176, 178, 179, 180, 181, 187, 200, 201, 202, 205, 206, 207, 208, 209, 210, 211, 212, 214, 215, 216, 234, 235, 237, 239, 241, 243];
+      let code_array_ns = [1, 9, 10, 11, 12, 13, 16, 18, 19, 22, 25, 26, 38, 39, 40, 41, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 74, 75, 76, 77, 78, 79, 80, 81, 82, 85, 100, 124, 127, 135, 136, 137, 139, 143, 145, 147, 149, 157, 158, 176, 178, 179, 180, 181, 187, 200, 201, 202, 205, 206, 207, 208, 209, 210, 211, 212, 214, 215, 216, 234, 235, 237, 239, 241, 243];
       let create_subscription = false;
 
       for(let i = 0; i < client_subscriptions.length; i++) {
@@ -1343,7 +1364,7 @@ module.exports.migrateData = async (_, res) => {
             //console.log("ENTRE PARA LA OTRA SUBS");
             custom_fields_subscription = [];
             
-            let timer = setInterval(async function() { 
+            let second_timer = setInterval(async function() { 
               if(client.Latitude !== null && client.Latitude !== "") {
                 let jsn = {
                   "label": "Latitud",
@@ -1432,7 +1453,7 @@ module.exports.migrateData = async (_, res) => {
                   }
                 }
               */
-              clearInterval(timer);
+              clearInterval(second_timer);
             }, 2000)
           }
         }
