@@ -1,5 +1,5 @@
-{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Código de plan no válido.","timestamp":"2022-01-31T23:53:41.961Z"}
-{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Código de plan no válido.","timestamp":"2022-01-31T23:53:46.956Z"}
+Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Código de plan no válido.","timestamp":"2022-01-31T23:53:41.961Z"}
+Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Código de plan no válido.","timestamp":"2022-01-31T23:53:46.956Z"}
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error El cliente “NELSON GIBSON RIOS POZO” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-01T00:07:08.275Z"}
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error El cliente “ESTACION DE SERVICIO SAN MARTIN” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-01T14:09:54.716Z"}
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error El cliente “FARMACIA LAS RUBIO C.A.” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-01T14:15:15.332Z"}
@@ -22,3 +22,4 @@ Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscrip
 Resuelto 9822{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Invalid value passed for Display Name","timestamp":"2022-02-08T14:36:37.567Z"}
 Resuelto*{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error El cliente “EDDYRA ALICIA CARRASQUERO HERNANDEZ” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-08T15:34:37.519Z"}
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createCustomerWithoutSubscription - Error El cliente “LIBRERIA EUROPA COSTA VERDE, C.A.” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-09T14:55:47.633Z"}
+Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error El cliente “MARIA ALEJANDRA MONTIEL ROMERO” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-10T15:56:23.447Z"}
