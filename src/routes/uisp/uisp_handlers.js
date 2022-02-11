@@ -778,7 +778,7 @@ module.exports.migrateData = async (_, res) => {
       console.log("MIGRACION FINALIZADA");
       clearInterval(timer);
     }
-  }, 5000);
+  }, 10000);
 
   async function processClient(client) {
     //console.log("PROCESAR CLIENTE")
