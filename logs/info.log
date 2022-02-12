@@ -27,3 +27,4 @@ Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscrip
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error El cliente “GOBERNACION DEL ESTADO ZULIA” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-11T22:40:59.172Z"}
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Invalid value passed for zsm.plans.api.PlanID","timestamp":"2022-02-11T22:42:39.488Z"}
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createCustomerWithoutSubscription - Error El cliente “TIENDAS DE TODO &amp; CON TODO, C. A” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-11T23:00:09.931Z"}
+Resuelto{"level":"info","message":"File: zoho.js - Function Name: createCustomerWithoutSubscription - Error El cliente “JESUS ALBERTO PEREZ PEREZ” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-12T16:58:03.936Z"}
