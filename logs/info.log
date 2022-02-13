@@ -35,3 +35,4 @@ Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscrip
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error El cliente “ANDREA CAROLINA MELEAN ARAUJO” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-13T14:41:20.895Z"}
 Resuelto 13823{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Invalid value passed for zb.customer.Address","timestamp":"2022-02-13T14:46:41.039Z"}
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error El cliente “SUPER VIDEOMANIA C,A” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-13T14:58:41.775Z"}
+Resuelto{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error El cliente “ADNAN HUNEIDI HUNEIDI” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-13T18:14:49.061Z"}
