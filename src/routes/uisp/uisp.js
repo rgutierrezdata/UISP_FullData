@@ -157,7 +157,7 @@ exports.getAllData = async() => {
     //SELECT TOP (1) * FROM [uispdb].[dbo].[uispData] ORDER BY uispdbID DESC
     //SELECT * FROM uispData WHERE uispdbID = 7008
     
-    sql.query(connectionString, 'SELECT * FROM uispData WHERE uispdbID BETWEEN 7501 AND 8006', (err, rows) => {
+    sql.query(connectionString, 'SELECT * FROM uispData WHERE CustomerIDZoho IS NULL', (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getAllData - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
