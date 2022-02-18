@@ -863,7 +863,7 @@ module.exports.migrateData = async (_, res) => {
     /*** Token para acceder a zoho ***/
 
     /*** PASO 2: Creación del cliente validando si tiene datos de subscripción ***/
-    if(client.SubscriptionStatus === null) {
+    if(client.SubscriptionStatus === null && client.organizationId !== 12) {
       //Los campos personalizados se crearán únicamente para la información asociada del cliente más no así de la subscripción
       
       //Análisis para campos personalizados
@@ -1002,7 +1002,7 @@ module.exports.migrateData = async (_, res) => {
         }
       }
       
-      if (create_subscription === false) {
+      if (create_subscription === false && client.organizationId !== 12) {
         //Los campos personalizados se crearán únicamente para la información asociada del cliente más no así de la subscripción
       
         //Análisis para campos personalizados
@@ -1127,7 +1127,7 @@ module.exports.migrateData = async (_, res) => {
         for(let i = 0; i < client_subscriptions.length; i++) {
           () => console.log("customer_created", customer_created)
 
-          if(client_subscriptions[i] === "2" || code_array_ns.includes(Number(client_services[i])) === true) {
+          if((client_subscriptions[i] === "2" || code_array_ns.includes(Number(client_services[i])) === true) && client.organizationId !== 12) {
             if(subscriptions_id.length === 0) {
               subscriptions_id = 'no_creada';
             }
@@ -1137,7 +1137,7 @@ module.exports.migrateData = async (_, res) => {
             await uisp.updateClientSubscriptions(client.uispdbID, subscriptions_id);
           }
          
-          if(customer_created === false && (client_subscriptions[i] === "1" || client_subscriptions[i] === "3") && code_array_ns.includes(Number(client_services[i])) === false) {
+          if(customer_created === false && (client_subscriptions[i] === "1" || client_subscriptions[i] === "3") && code_array_ns.includes(Number(client_services[i])) === false && client.organizationId !== 12) {
             console.log(customer_created)
             customer_created = !customer_created;
             console.log(customer_created)
@@ -1359,7 +1359,7 @@ module.exports.migrateData = async (_, res) => {
               }
             }
           }
-          else if (customer_created === true && (client_subscriptions[i] === "1" || client_subscriptions[i] === "3") && code_array_ns.includes(Number(client_services[i])) === false) {
+          else if (customer_created === true && (client_subscriptions[i] === "1" || client_subscriptions[i] === "3") && code_array_ns.includes(Number(client_services[i])) === false && client.organizationId !== 12) {
             //Análisis para campos personalizados para la subscripción
             //console.log("ENTRE PARA LA OTRA SUBS");
             custom_fields_subscription = [];
