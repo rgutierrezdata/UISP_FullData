@@ -903,7 +903,7 @@ module.exports.migrateData = async (_, res) => {
           "first_name": client.FirstName,
           "last_name": client.LastName,
           "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-          "email": `testmailbox2022cliente${client.CustomerIDUISP}@gmail.com`,
+          "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
           //"email": "test" + client.Email,
           "mobile": client.Phone,
           "billing_address": {
@@ -929,7 +929,7 @@ module.exports.migrateData = async (_, res) => {
         zoho_body =  {
           "display_name": client.DisplayName,
           "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-          "email": `testmailbox2022cliente${client.CustomerIDUISP}@gmail.com`,
+          "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
           //"email": "test" + client.Email,
           "mobile": client.Phone,
           "billing_address": {
@@ -1042,7 +1042,7 @@ module.exports.migrateData = async (_, res) => {
             "first_name": client.FirstName,
             "last_name": client.LastName,
             "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-            "email": `testmailbox2022cliente${client.CustomerIDUISP}@gmail.com`,
+            "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
             //"email": "test" + client.Email,
             "mobile": client.Phone,
             "billing_address": {
@@ -1068,7 +1068,7 @@ module.exports.migrateData = async (_, res) => {
           zoho_body =  {
             "display_name": client.DisplayName,
             "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-            "email": `testmailbox2022cliente${client.CustomerIDUISP}@gmail.com`,
+            "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
             //"email": "test" + client.Email,
             "mobile": client.Phone,
             "billing_address": {
@@ -1240,7 +1240,7 @@ module.exports.migrateData = async (_, res) => {
                   "first_name": client.FirstName,
                   "last_name": client.LastName,
                   "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-                  "email": `testmailbox2022cliente${client.CustomerIDUISP}@gmail.com`,
+                  "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
                   //"email": "test" + client.Email,
                   "mobile": client.Phone,
                   "billing_address": {
@@ -1265,7 +1265,7 @@ module.exports.migrateData = async (_, res) => {
                   "plan_code": client_codes[i],
                   //"plan_description": "Plan de prueba",
                   "quantity": "1",
-                  "price": client_prices[i],
+                  "price": (client.organizationId === 12) ? 0 : client_prices[i],
                   "exclude_setup_fee": true
                 },
                 "addons": addons,
@@ -1305,7 +1305,7 @@ module.exports.migrateData = async (_, res) => {
                   "plan_code": client_codes[i],
                   //"plan_description": "Plan de prueba",
                   "quantity": "1",
-                  "price": client_prices[i],
+                  "price": (client.organizationId === 12) ? 0 : client_prices[i],
                   "exclude_setup_fee": true
                 },
                 "addons": addons,
@@ -1428,7 +1428,7 @@ module.exports.migrateData = async (_, res) => {
                   "plan_code": client_codes[i],
                   //"plan_description": "Plan de prueba",
                   "quantity": "1",
-                  "price": client_prices[i],
+                  "price": (client.organizationId === 12) ? 0 : client_prices[i],
                   "exclude_setup_fee": true
                 },
                 "custom_fields": custom_fields_subscription,
