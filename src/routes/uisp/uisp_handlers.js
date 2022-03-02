@@ -1280,7 +1280,7 @@ module.exports.migrateData = async (_, res) => {
                 "customer": {
                   "display_name": client.DisplayName,
                   "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-                  "email": `testmailbox2022cliente${client.CustomerIDUISP}@gmail.com`,
+                  "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
                   //"email": "test" + client.Email,
                   "mobile": client.Phone,
                   "billing_address": {
