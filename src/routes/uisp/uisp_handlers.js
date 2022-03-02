@@ -63,7 +63,15 @@ module.exports.fetchData = async (req, res) => {
       //Arreglo con informaciones varias ===> clientId, email, phone
       let contacts_array = client.contacts;
       //Correo electrónico
-      let email = (contacts_array[0].email) ? `'${contacts_array[0].email.trim()}'` : `'info@fulldata.com.ve'`;
+      let email = "";
+
+      if(client.organizationId === 12) {
+        email = `'facturacion@fulldata.com.ve'`;
+      }
+      else {
+        email = (contacts_array[0].email) ? `'${contacts_array[0].email.trim()}'` : `'facturacion@fulldata.com.ve'`;
+      }
+
       let username = (client.username) ? `'${client.username.trim().replace("'", "''")}'` : null;
       
       //Análisis para construcción de string con teléfonos
