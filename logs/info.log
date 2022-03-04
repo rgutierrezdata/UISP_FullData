@@ -42,4 +42,3 @@ Resuelto{"level":"info","message":"File: zoho.js - Function Name: createCustomer
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createCustomerWithoutSubscription - Error El cliente “CARLOS EDUARDO POLIDORO AGUILAR CHIRINOS” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-14T14:15:01.368Z"}
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createCustomerWithoutSubscription - Error El cliente “ISAIC ALEXANDER SOJO MORENO” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-14T14:15:41.367Z"}
 Resuelto{"level":"info","message":"File: zoho.js - Function Name: createCustomerWithoutSubscription - Error El cliente “JOSE LUIS SIBADA” ya existe. Especifique un nombre diferente.","timestamp":"2022-02-14T14:19:41.585Z"}
-{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Valor no válido para plan_code","timestamp":"2022-02-15T15:38:27.378Z"}

@@ -985,6 +985,7 @@ module.exports.migrateData = async (_, res) => {
       let custom_fields_subscription = [];
       let client_subscriptions = client.SubscriptionStatus.split(",");
       let client_services = client.ServicePlanID.split(",");
+      let services_description = client.SubscriptionDescription.split(",");
       let client_activeFrom = client.ActiveFrom.split(",");
       let zoho_client_id = "";
 
@@ -1219,16 +1220,53 @@ module.exports.migrateData = async (_, res) => {
 
             //Configuración de addon si es el caso
             let addons = [];
+            console.log("SERVICES", services_description);
 
-            for(addon of client_services) {
-              if (addon === '216') {
-                let jsn = {
-                  "addon_code": "ipp",
-                  "quantity": 1
+            for(let [index, addon] of client_services.entries()) {
+              if (['178', '179', '216'].includes(addon.trim()) === true) {
+                let position = 0;
+                if(index === 0) {
+                  position = 1;
                 }
-                addons.push(jsn);
+                else {
+                  position = 0;
+                }
+                console.log("index", index);
+                console.log("position", position);
+                console.log("NOMBRE SERVICIO", services_description[position]);
+
+                let jsn = {};
+                if(services_description[position].includes("WIRELESS") === true) {
+                  jsn = {
+                    "addon_code": "ippw",
+                    "quantity": 1
+                  }
+                  addons.push(jsn);
+                } 
+                else if(services_description[position].includes("RESIDENCIAL") === true) {
+                  jsn = {
+                    "addon_code": "ippr",
+                    "quantity": 1
+                  }
+                  addons.push(jsn);
+                } 
+                else if(services_description[position].includes("CORP") === true) {
+                  jsn = {
+                    "addon_code": "ippc",
+                    "quantity": 1
+                  }
+                  addons.push(jsn);
+                } 
+                else if(services_description[position].includes("PYME") === true) {
+                  jsn = {
+                    "addon_code": "ippp",
+                    "quantity": 1
+                  }
+                  addons.push(jsn);
+                }
               }
             }
+            console.log("addon", addons[0]);
 
             //JSON de configuración para Zoho Subscriptions ==> Creación de cliente más subscripción
             let zoho_body = {};
