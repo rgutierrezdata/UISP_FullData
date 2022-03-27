@@ -173,7 +173,7 @@ exports.getAllData = async() => {
 
 exports.updateCustomer = async(uispdbID, zoho_client_id) => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `UPDATE UISPData SET CustomerIDZoho = '${zoho_client_id}', IsCreatedZoho = 1 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
+    sql.query(connectionString, `UPDATE uisptestdata SET CustomerIDZoho = '${zoho_client_id}', IsCreatedZoho = 1 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: updateCustomer - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
@@ -187,7 +187,7 @@ exports.updateCustomer = async(uispdbID, zoho_client_id) => {
 
 exports.updateSingleCustomer = async(uispdbID, zoho_client_id) => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `UPDATE UISPData SET CustomerIDZoho = '${zoho_client_id}', IsSingleCustomer = 1, IsCreatedZoho = 1 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
+    sql.query(connectionString, `UPDATE uisptestdata SET CustomerIDZoho = '${zoho_client_id}', IsSingleCustomer = 1, IsCreatedZoho = 1 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: updateSingleCustomer - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
@@ -259,7 +259,7 @@ exports.updateClientDebt = async(CustomerIDUISP) => {
 //Actualización de campos de suscripciones
 exports.updateClientSubscriptions = async(uispdbID, subscriptions_id) => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `UPDATE UISPData SET ZohoSubscriptionID = '${subscriptions_id}' WHERE uispdbID = ${uispdbID}`, (err, rows) => {
+    sql.query(connectionString, `UPDATE uisptestdata SET ZohoSubscriptionID = '${subscriptions_id}' WHERE uispdbID = ${uispdbID}`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: updateClientSubscriptions - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
