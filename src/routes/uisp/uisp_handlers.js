@@ -13,7 +13,7 @@ module.exports.fetchData = async (req, res) => {
   let cantidad_clientes = 0;
 
   let offset = 0;
-  const limit = 10000;
+  const limit = 3000;
 
   //Atrapando toda la data de clientes en UISP
   
@@ -43,11 +43,12 @@ module.exports.fetchData = async (req, res) => {
         console.log("CANTIDAD_TOTAL_USUARIOS ===>", uisp_clients.length);
       }
     */
-      if (offset >= 1) {
-        SYS = true;
-        console.log("Obtención de data finalizada");
-        console.log("CANTIDAD_TOTAL_USUARIOS ===>", uisp_clients.length);
-      }
+
+    if (offset >= 0) {
+      SYS = true;
+      console.log("Obtención de data finalizada");
+      console.log("CANTIDAD_TOTAL_USUARIOS ===>", uisp_clients.length);
+    }
 
     //console.log("CANTIDAD_TOTAL_USUARIOS ===>", cantidad_clientes);
     //return
@@ -237,6 +238,9 @@ module.exports.fetchData = async (req, res) => {
       let UISP_subscription_ID = "";
       let service_plan_period_ID = "";
       let service_plan_period = "";
+
+      //Campo de descuentos al precio de las subscripciones
+      let subscriptionsDiscounts = "";
       
       if(user_service_info.length !== 0) {
         //Extraer información de todas las subscripciones
@@ -613,6 +617,27 @@ module.exports.fetchData = async (req, res) => {
           }
         }
 
+        //discountValue
+        for(subscription of user_service_info) {
+          if(subscription.discountValue !== null) {
+            if(subscriptionsDiscounts.length === 0) {
+              subscriptionsDiscounts = subscription.discountValue;
+            }
+            else {
+              subscriptionsDiscounts = subscriptionsDiscounts + "," + subscription.discountValue;
+            }
+          }
+          else {
+            if(subscriptionsDiscounts.length === 0) {
+              subscriptionsDiscounts = '0';
+            }
+            else {
+              subscriptionsDiscounts = subscriptionsDiscounts + "," + '0';
+            }
+
+          }
+        }
+
         //Transformación final subscription_status, servicePlanID, activeFrom
         subscription_status = `'${subscription_status}'`;
         subscription_price = `'${subscription_price}'`;
@@ -624,6 +649,7 @@ module.exports.fetchData = async (req, res) => {
         UISP_subscription_ID = `'${UISP_subscription_ID}'`
         service_plan_period_ID = `'${service_plan_period_ID}'`
         service_plan_period = `'${service_plan_period}'`
+        subscriptionsDiscounts = `'${subscriptionsDiscounts}'`
     
         //console.log("SUBSCRIPTION_STATUS ===>",subscription_status);
         //console.log("SERVICE_PLAND_ID ===>",servicePlanID);
@@ -718,6 +744,7 @@ module.exports.fetchData = async (req, res) => {
         UISP_subscription_ID = null;
         service_plan_period_ID = null;
         service_plan_period = null;
+        subscriptionsDiscounts = null;
       }
       
       //Custom fields
@@ -734,7 +761,7 @@ module.exports.fetchData = async (req, res) => {
       let organizationName = (client.organizationName) ? `'${client.organizationName.trim()}'` : null;
   
       //Insertar cliente en base de datos
-      const insert_client = await uisp.insertClient(firstName, lastName, companyName, displayName, email, username, phone, country, state, city, street, zip, customerID_UISP, clientType, clientTypeName_UISP, clientTypeName_Zoho, subscription_status, subscription_status_name_UISP, subscription_status_name_Zoho, subscription_price, currency_code, subscription_codes, subscription_description, account_balance, account_credit, account_outstanding, UISP_subscription_ID, service_plan_period_ID, service_plan_period, latitude, longitude, google_maps_url, node, organizationName, servicePlanID, activeFrom, RIF);
+      const insert_client = await uisp.insertClient(firstName, lastName, companyName, displayName, email, username, phone, country, state, city, street, zip, customerID_UISP, clientType, clientTypeName_UISP, clientTypeName_Zoho, subscription_status, subscription_status_name_UISP, subscription_status_name_Zoho, subscription_price, subscriptionsDiscounts, currency_code, subscription_codes, subscription_description, account_balance, account_credit, account_outstanding, UISP_subscription_ID, service_plan_period_ID, service_plan_period, latitude, longitude, google_maps_url, node, organizationName, servicePlanID, activeFrom, RIF);
   
       if(insert_client) {
         inserted_client = inserted_client + 1;
