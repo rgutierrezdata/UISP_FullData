@@ -980,7 +980,6 @@ module.exports.migrateData = async (_, res) => {
 
       }
       
-    
       const create_client = await zoho.createCustomerWithoutSubscription(domain_url, organizationid, oauthtoken, zoho_body);
 
       //Extraer id de cliente de Zoho Subscriptions
@@ -1018,6 +1017,7 @@ module.exports.migrateData = async (_, res) => {
 
       let client_prices = client.SubscriptionPrice.split(",");
       let client_codes = client.SubscriptionCodes.split(",");
+      let subscription_discounts = client.SubscriptionDiscounts.split(",");
       let subscriptions_id = "";
       //console.log("ENTRO EN LA FUNCION PARA VARIAS SUBSCRIPCIONES");
       //console.log("ESTADOS_SUBSCRIPCION ===>", client_subscriptions);
@@ -1330,12 +1330,12 @@ module.exports.migrateData = async (_, res) => {
                   "plan_code": client_codes[i],
                   //"plan_description": "Plan de prueba",
                   "quantity": "1",
-                  "price": (client.organizationId === 12) ? 0 : client_prices[i],
+                  "price": (client.organizationId === 12) ? 0 : (client_prices[i] * (1 - (subscription_discounts[i]/100))),
                   "exclude_setup_fee": true
                 },
                 "addons": addons,
                 "custom_fields": custom_fields_subscription,
-                "starts_at": "2022-03-01",
+                "starts_at": "2022-03-28",
                 "allow_partial_payments": true,
                 "auto_collect": "false"
               };
@@ -1370,19 +1370,18 @@ module.exports.migrateData = async (_, res) => {
                   "plan_code": client_codes[i],
                   //"plan_description": "Plan de prueba",
                   "quantity": "1",
-                  "price": (client.organizationId === 12) ? 0 : client_prices[i],
+                  "price": (client.organizationId === 12) ? 0 : (client_prices[i] * (1 - (subscription_discounts[i]/100))),
                   "exclude_setup_fee": true
                 },
                 "addons": addons,
                 "custom_fields": custom_fields_subscription,
-                "starts_at": "2022-03-01",
+                "starts_at": "2022-03-28",
                 "allow_partial_payments": true,
                 "auto_collect": "false"
               };
 
             }
             
-
             //Crear cliente con su respectiva subscripción en Zoho Subscriptions
             const create_client = await zoho.createSubscriptionCustomer(domain_url, organizationid, oauthtoken, zoho_body);
 
@@ -1493,11 +1492,11 @@ module.exports.migrateData = async (_, res) => {
                   "plan_code": client_codes[i],
                   //"plan_description": "Plan de prueba",
                   "quantity": "1",
-                  "price": (client.organizationId === 12) ? 0 : client_prices[i],
+                  "price": (client.organizationId === 12) ? 0 : (client_prices[i] * (1 - (subscription_discounts[i]/100))),
                   "exclude_setup_fee": true
                 },
                 "custom_fields": custom_fields_subscription,
-                "starts_at": "2022-03-01",
+                "starts_at": "2022-03-28",
                 "allow_partial_payments": true,
                 "auto_collect": "false"
               };
