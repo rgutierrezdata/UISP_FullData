@@ -930,8 +930,8 @@ module.exports.migrateData = async (_, res) => {
           "first_name": client.FirstName,
           "last_name": client.LastName,
           "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-          "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
-          //"email": "test" + client.Email,
+          "email": client.Email,
+          //"email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
           "mobile": client.Phone,
           "billing_address": {
             "country": client.Country,
@@ -956,8 +956,8 @@ module.exports.migrateData = async (_, res) => {
         zoho_body =  {
           "display_name": client.DisplayName,
           "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-          "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
-          //"email": "test" + client.Email,
+          "email": client.Email,
+          //"email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
           "mobile": client.Phone,
           "billing_address": {
             "country": client.Country,
@@ -1070,8 +1070,8 @@ module.exports.migrateData = async (_, res) => {
             "first_name": client.FirstName,
             "last_name": client.LastName,
             "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-            "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
-            //"email": "test" + client.Email,
+            "email": client.Email,
+            //"email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
             "mobile": client.Phone,
             "billing_address": {
               "country": client.Country,
@@ -1096,8 +1096,8 @@ module.exports.migrateData = async (_, res) => {
           zoho_body =  {
             "display_name": client.DisplayName,
             "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-            "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
-            //"email": "test" + client.Email,
+            "email": client.Email,
+            //"email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
             "mobile": client.Phone,
             "billing_address": {
               "country": client.Country,
@@ -1305,8 +1305,8 @@ module.exports.migrateData = async (_, res) => {
                   "first_name": client.FirstName,
                   "last_name": client.LastName,
                   "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-                  "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
-                  //"email": "test" + client.Email,
+                  "email": client.Email,
+                  //"email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
                   "mobile": client.Phone,
                   "billing_address": {
                     "country": client.Country,
@@ -1328,14 +1328,13 @@ module.exports.migrateData = async (_, res) => {
                 },
                 "plan": {
                   "plan_code": client_codes[i],
-                  //"plan_description": "Plan de prueba",
                   "quantity": "1",
                   "price": (client.organizationId === 12) ? 0 : (client_prices[i] * (1 - (subscription_discounts[i]/100))),
                   "exclude_setup_fee": true
                 },
                 "addons": addons,
                 "custom_fields": custom_fields_subscription,
-                "starts_at": "2022-03-28",
+                "starts_at": "2022-04-01",
                 "allow_partial_payments": true,
                 "auto_collect": "false"
               };
@@ -1345,8 +1344,8 @@ module.exports.migrateData = async (_, res) => {
                 "customer": {
                   "display_name": client.DisplayName,
                   "customer_sub_type": (client.ClientType === 1) ? "individual" : "business",
-                  "email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
-                  //"email": "test" + client.Email,
+                  "email": client.Email,
+                  //"email": `testmailbox2022+cliente${client.CustomerIDUISP}@gmail.com`,
                   "mobile": client.Phone,
                   "billing_address": {
                     "country": client.Country,
@@ -1368,14 +1367,13 @@ module.exports.migrateData = async (_, res) => {
                 },
                 "plan": {
                   "plan_code": client_codes[i],
-                  //"plan_description": "Plan de prueba",
                   "quantity": "1",
                   "price": (client.organizationId === 12) ? 0 : (client_prices[i] * (1 - (subscription_discounts[i]/100))),
                   "exclude_setup_fee": true
                 },
                 "addons": addons,
                 "custom_fields": custom_fields_subscription,
-                "starts_at": "2022-03-28",
+                "starts_at": "2022-04-01",
                 "allow_partial_payments": true,
                 "auto_collect": "false"
               };
@@ -1490,13 +1488,12 @@ module.exports.migrateData = async (_, res) => {
                 "customer_id": zoho_client_id,
                 "plan": {
                   "plan_code": client_codes[i],
-                  //"plan_description": "Plan de prueba",
                   "quantity": "1",
                   "price": (client.organizationId === 12) ? 0 : (client_prices[i] * (1 - (subscription_discounts[i]/100))),
                   "exclude_setup_fee": true
                 },
                 "custom_fields": custom_fields_subscription,
-                "starts_at": "2022-03-28",
+                "starts_at": "2022-04-01",
                 "allow_partial_payments": true,
                 "auto_collect": "false"
               };
@@ -1705,7 +1702,7 @@ module.exports.addCharges = async () => {
       console.log("ACTUALIZACION DE CARGOS FINALIZADA");
       clearInterval(timer);
     }
-  }, 10000);
+  }, 15000);
 
   async function updateClientFromZoho(client) {
 
