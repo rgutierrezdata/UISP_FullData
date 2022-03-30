@@ -13,7 +13,7 @@ module.exports.fetchData = async (req, res) => {
   let cantidad_clientes = 0;
 
   let offset = 0;
-  const limit = 3000;
+  const limit = 15000;
 
   //Atrapando toda la data de clientes en UISP
   
@@ -49,7 +49,7 @@ module.exports.fetchData = async (req, res) => {
       console.log("Obtención de data finalizada");
       console.log("CANTIDAD_TOTAL_USUARIOS ===>", uisp_clients.length);
     }
-
+    
     //console.log("CANTIDAD_TOTAL_USUARIOS ===>", cantidad_clientes);
     //return
     
