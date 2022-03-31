@@ -159,7 +159,7 @@ exports.getAllData = async() => {
     //SELECT TOP (1) * FROM [uispdb].[dbo].[uispData] ORDER BY uispdbID DESC
     //SELECT * FROM uispData WHERE uispdbID = 7008
     
-    sql.query(connectionString, `SELECT * FROM uispMigrationData`, (err, rows) => {
+    sql.query(connectionString, `SELECT * FROM uispMigrationData WHERE IsCreatedZoho = 0`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getAllData - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
