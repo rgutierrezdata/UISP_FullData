@@ -232,7 +232,7 @@ exports.getClientsWithDebt = async() => {
   //SELECT * FROM uispData WHERE IsCreatedZoho = 1
   //SELECT * FROM uispData WHERE uispdbID = 7000
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `SELECT * FROM uispMigrationData WHERE AccountOutstanding > '0' AND CustomerIDZoho IS NOT NULL AND IsDebtUpdated = 0`, (err, rows) => {
+    sql.query(connectionString, `SELECT * FROM uispMigrationDataFixes WHERE AccountOutstanding > '0' AND CustomerIDZoho IS NOT NULL AND IsDebtUpdated = 0`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsWithDebt - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);

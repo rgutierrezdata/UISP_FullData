@@ -1,4 +1,0 @@
-{"level":"error","message":"Folder: uisp - File: uisp.js - Function_Name: getClientsWithDebt - Error Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Incorrect syntax near 'SELECT * FROM uispMigradtionData WHERE AccountOutstanding > '.","timestamp":"2022-04-01T19:50:17.748Z"}
-{"level":"error","message":"File: uisp_hanlders.js - Function Name: addCharges - Error Error","timestamp":"2022-04-01T19:50:17.755Z"}
-{"level":"error","message":"Folder: uisp - File: uisp.js - Function_Name: getClientsWithDebt - Error Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Incorrect syntax near 'SELECT * FROM uispMigradtionData WHERE AccountOutstanding > '.","timestamp":"2022-04-01T19:50:20.837Z"}
-{"level":"error","message":"File: uisp_hanlders.js - Function Name: addCharges - Error Error","timestamp":"2022-04-01T19:50:20.838Z"}
