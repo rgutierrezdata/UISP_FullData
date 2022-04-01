@@ -12,8 +12,8 @@ module.exports.fetchData = async (req, res) => {
   let uisp_clients = [];
   let cantidad_clientes = 0;
 
-  let offset = 0;
-  const limit = 15000;
+  let offset = 9687;
+  const limit = 1000;
 
   //Atrapando toda la data de clientes en UISP
   
@@ -23,8 +23,6 @@ module.exports.fetchData = async (req, res) => {
     
     uisp_clients = uisp_clients.concat(data);
     cantidad_clientes = cantidad_clientes + uisp_clients.length;
-    //console.log("CANTIDAD_CLIENTES ===>", cantidad_clientes);
-    //return
 
     if (data.length === 0) {
       SYS = true;
@@ -35,24 +33,22 @@ module.exports.fetchData = async (req, res) => {
       offset += limit;
     }
 
-    /*
-      Detener rutina
-      if (offset >= 5) {
-        SYS = true;
-        console.log("Obtención de data finalizada");
-        console.log("CANTIDAD_TOTAL_USUARIOS ===>", uisp_clients.length);
-      }
-    */
-
     if (offset >= 0) {
       SYS = true;
       console.log("Obtención de data finalizada");
       console.log("CANTIDAD_TOTAL_USUARIOS ===>", uisp_clients.length);
     }
-    
-    //console.log("CANTIDAD_TOTAL_USUARIOS ===>", cantidad_clientes);
-    //return
-    
+
+    /*
+      uisp_clients = [];
+      const pending_users = await uisp.getPendingClients();
+      for(let user of pending_users) {
+        const data = await uisp.getClientsByEmailUISP(user.Email);
+        uisp_clients = uisp_clients.concat(data)
+        console.log("CANTIDAD ===>", uisp_clients.length);
+      }
+    */
+
     let inserted_client = 0;
     //Procesamiento de la información para insertar en base de datos
     for(let client of uisp_clients) {
@@ -122,13 +118,16 @@ module.exports.fetchData = async (req, res) => {
       let street = null;
   
       if(street1 !== null && street2 !== null) {
-        street = `'${client.street1.trim() + " " + client.street2.trim()}'`;
+        street = `'${client.street1.trim().replace("'", "''") + " " + client.street2.trim().replace("'", "''")}'`;
       }
       else if(street1 !== null) {
-        street = `'${client.street1.trim()}'`;
+        street = `'${client.street1.trim().replace("'", "''")}'`;
       }
       else if(street2 !== null) {
-        street = `'${client.street2.trim()}'`;
+        street = `'${client.street2.trim().replace("'", "''")}'`;
+      }
+      else {
+        street = "";
       }
   
       //Código postal
@@ -569,6 +568,138 @@ module.exports.fetchData = async (req, res) => {
             }
             else if(subscription.servicePlanId === 246) {
               code ="FC60D";
+            }
+            else if(subscription.servicePlanId === 247) {
+              code = "WC20D";
+            }
+            else if(subscription.servicePlanId === 252) {
+              code = "WC16";
+            }
+            else if(subscription.servicePlanId === 253) {
+              code = "FPLITE";
+            }
+            else if(subscription.servicePlanId === 254) {
+              code = "FPMEGA";
+            }
+            else if(subscription.servicePlanId === 255) {
+              code = "FPMEGA";
+            }
+            else if(subscription.servicePlanId === 267) {
+              code = "FPLIT";
+            }
+            else if(subscription.servicePlanId === 268) {
+              code = "FPPLUS";
+            }
+            else if(subscription.servicePlanId === 269) {
+              code = "FPMEGA";
+            }
+            else if(subscription.servicePlanId === 283) {
+              code = "WC60";
+            }
+            else if(subscription.servicePlanId === 284) {
+              code = "WC60";
+            }
+            else if(subscription.servicePlanId === 285) {
+              code = "FPULTRARIAL";
+            }
+            else if(subscription.servicePlanId === 286) {
+              code = "FCEND";
+            }
+            else if(subscription.servicePlanId === 287) {
+              code = "FCSED";
+            }
+            else if(subscription.servicePlanId === 288) {
+              code = "FCGEZD";
+            }
+            else if(subscription.servicePlanId === 289) {
+              code = "FCGEZD";
+            }
+            else if(subscription.servicePlanId === 290) {
+              code = "FCPGEZD";
+            }
+            else if(subscription.servicePlanId === 291) {
+              code = "FCGEZDL";
+            }
+            else if(subscription.servicePlanId === 292) {
+              code = "FCINVH";
+            }
+            else if(subscription.servicePlanId === 243) {
+              code = "FR30";
+            }
+            else if(subscription.servicePlanId === 248) {
+              code = "FRMLITE";
+            }
+            else if(subscription.servicePlanId === 249) {
+              code = "FRLITE";
+            }
+            else if(subscription.servicePlanId === 250) {
+              code = "FRPLUS";
+            }
+            else if(subscription.servicePlanId === 251) {
+              code = "FRULTRA";
+            }
+            else if(subscription.servicePlanId === 256) {
+              code = "FPULTRA";
+            }
+            else if(subscription.servicePlanId === 257) {
+              code = "FCULTRA";
+            }
+            else if(subscription.servicePlanId === 258) {
+              code = "FCFULL";
+            }
+            else if(subscription.servicePlanId === 259) {
+              code = "FCMEGA";
+            }
+            else if(subscription.servicePlanId === 260) {
+              code = "FCPRO";
+            }
+            else if(subscription.servicePlanId === 261) {
+              code = "FCPLUS";
+            }
+            else if(subscription.servicePlanId === 262) {
+              code = "FCLITE";
+            }
+            else if(subscription.servicePlanId === 263) {
+              code = "FRMLITE";
+            }
+            else if(subscription.servicePlanId === 264) {
+              code = "FRLITE";
+            }
+            else if(subscription.servicePlanId === 265) {
+              code = "FRPLUS";
+            }
+            else if(subscription.servicePlanId === 266) {
+              code = "FRULTRA";
+            }
+            else if(subscription.servicePlanId === 270) {
+              code = "FPULTRA";
+            }
+            else if(subscription.servicePlanId === 271) {
+              code = "FCULTRA";
+            }
+            else if(subscription.servicePlanId === 272) {
+              code = "FCFULL";
+            }
+            else if(subscription.servicePlanId === 273) {
+              code = "FCMEGA";
+            }
+            else if(subscription.servicePlanId === 274) {
+              code = "FCPRO";
+            }
+            else if(subscription.servicePlanId === 275) {
+              code = "FCPLUS";
+            }
+            else if(subscription.servicePlanId === 276) {
+              code = "FCLITE";
+            }
+            else if(subscription.servicePlanId === 279) {
+              code = "WC6";
+            }
+            else if(subscription.servicePlanId === 280) {
+              code = "WC8";
+            }
+            else if(subscription.servicePlanId === 281) {
+              code = "FRLITE";
             }
           }
 
@@ -1250,46 +1381,48 @@ module.exports.migrateData = async (_, res) => {
             console.log("SERVICES", services_description);
 
             for(let [index, addon] of client_services.entries()) {
-              if (['178', '179', '216'].includes(addon.trim()) === true) {
-                let position = 0;
-                if(index === 0) {
-                  position = 1;
-                }
-                else {
-                  position = 0;
-                }
-                console.log("index", index);
-                console.log("position", position);
-                console.log("NOMBRE SERVICIO", services_description[position]);
-
-                let jsn = {};
-                if(services_description[position].includes("WIRELESS") === true) {
-                  jsn = {
-                    "addon_code": "ippw",
-                    "quantity": 1
+              if(addons.length === 0) {
+                if (['178', '179', '216', '277', '278'].includes(addon.trim()) === true) {
+                  let position = 0;
+                  if(index === 0) {
+                    position = 1;
                   }
-                  addons.push(jsn);
-                } 
-                else if(services_description[position].includes("RESIDENCIAL") === true) {
-                  jsn = {
-                    "addon_code": "ippr",
-                    "quantity": 1
+                  else {
+                    position = 0;
                   }
-                  addons.push(jsn);
-                } 
-                else if(services_description[position].includes("CORP") === true) {
-                  jsn = {
-                    "addon_code": "ippc",
-                    "quantity": 1
+                  console.log("index", index);
+                  console.log("position", position);
+                  console.log("NOMBRE SERVICIO", services_description[position]);
+  
+                  let jsn = {};
+                  if(services_description[position].includes("WIRELESS") === true) {
+                    jsn = {
+                      "addon_code": "ippw",
+                      "quantity": 1
+                    }
+                    addons.push(jsn);
+                  } 
+                  else if(services_description[position].includes("RESIDENCIAL") === true) {
+                    jsn = {
+                      "addon_code": "ippr",
+                      "quantity": 1
+                    }
+                    addons.push(jsn);
+                  } 
+                  else if(services_description[position].includes("CORP") === true) {
+                    jsn = {
+                      "addon_code": "ippc",
+                      "quantity": 1
+                    }
+                    addons.push(jsn);
+                  } 
+                  else if(services_description[position].includes("PYME") === true) {
+                    jsn = {
+                      "addon_code": "ippp",
+                      "quantity": 1
+                    }
+                    addons.push(jsn);
                   }
-                  addons.push(jsn);
-                } 
-                else if(services_description[position].includes("PYME") === true) {
-                  jsn = {
-                    "addon_code": "ippp",
-                    "quantity": 1
-                  }
-                  addons.push(jsn);
                 }
               }
             }
@@ -1774,11 +1907,11 @@ module.exports.addCharges = async () => {
     //Añadir el cargo a la suscripción del cliente con deuda pendiete
     let zoho_charge_body = {
       "amount": client.AccountOutstanding,
-      "description":"Saldo pendiente previo al 28 de febrero"
+      "description":"Saldo pendiente UISP"
     }
 
     const add_charge = await zoho.addChargeToSubscription(domain_url, organizationid, oauthtoken, subscription_id, zoho_charge_body);
-
+    console.log("DEUDA - CustomerIDUISP:", client.CustomerIDUISP);
     if(add_charge) {
       await uisp.updateClientDebt(client.CustomerIDUISP);
       console.log("DEUDA ANADIDA - CustomerIDUISP:", client.CustomerIDUISP);

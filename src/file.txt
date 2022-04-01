@@ -1,0 +1,38 @@
+UPDATE uispMigrationDataFixes SET Email = 'WILKELENRIQUESANCHEZ@GMAIL.COM' WHERE uispdbID = 6
+
+SELECT CustomerIDUISP, DisplayName, Email, SubscriptionCodes FROM uispMigrationData WHERE IsCreatedZoho = 0 AND Email = 'facturacion@fulldata.com.ve'
+
+SELECT * FROM uispMigrationData WHERE uispdbID BETWEEN 7 AND 311
+
+SELECT * FROM uispMigrationData WHERE CustomerIDUISP = 1975
+
+SELECT ServicePlanID, SubscriptionCodes, ZohoSubscriptionID 
+FROM uispMigrationData 
+WHERE (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) > (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS NVARCHAR(MAX)), ',', '')) +1)
+
+
+DECLARE @ServicePlanID INT;
+DECLARE @ZohoSubscription INT;
+SET @ServicePlanID = (SELECT (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) FROM uispMigrationData);
+SET @ZohoSubscription = (SELECT (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) FROM uispMigrationData);
+SELECT CustomerIDUISP, DisplayName, ServicePlanID, ZohoSubscriptionID FROM uispMigrationData WHERE @ServicePlanID < @ZohoSubscription
+
+SELECT CustomerIDUISP, DisplayName, SubscriptionCodes, SubscriptionDescription, (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS '# Servicios',
+(DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS '# Suscripciones Zoho' FROM uispMigrationData 
+WHERE (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) < (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1)
+
+--Registros pendientes
+
+SELECT uispdbID, DisplayName, CustomerIDUISP FROM uispMigrationData WHERE IsCreatedZoho = 0 AND EMAIL = 'facturacion@fulldata.com.ve'
+
+SELECT * FROM uispMigrationDataFixes WHERE IsCreatedZoho = 0
+
+SELECT * FROM uispMigrationData WHERE IsCreatedZoho = 0
+
+UPDATE uispMigrationDataFixes SET EMAIL = 'ELIAGNY4891@GMAIL.COM' WHERE uispdbID = 346
+
+
+
+
+
+
