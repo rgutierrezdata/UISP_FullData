@@ -159,7 +159,7 @@ exports.getAllData = async() => {
     //SELECT TOP (1) * FROM [uispdb].[dbo].[uispData] ORDER BY uispdbID DESC
     //SELECT * FROM uispData WHERE uispdbID = 7008
     
-    sql.query(connectionString, `SELECT * FROM uispMigrationDataFixes WHERE IsCreatedZoho = 0`, (err, rows) => {
+    sql.query(connectionString, `SELECT * FROM uispMigrationData WHERE uispdbID = 9585`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getAllData - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
@@ -173,7 +173,7 @@ exports.getAllData = async() => {
 
 exports.updateCustomer = async(uispdbID, zoho_client_id) => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `UPDATE uispMigrationDataFixes SET CustomerIDZoho = '${zoho_client_id}', IsCreatedZoho = 1 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
+    sql.query(connectionString, `UPDATE uispMigrationData SET CustomerIDZoho = '${zoho_client_id}', IsCreatedZoho = 1 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: updateCustomer - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
@@ -187,7 +187,7 @@ exports.updateCustomer = async(uispdbID, zoho_client_id) => {
 
 exports.updateSingleCustomer = async(uispdbID, zoho_client_id) => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `UPDATE uispMigrationDataFixes SET CustomerIDZoho = '${zoho_client_id}', IsSingleCustomer = 1, IsCreatedZoho = 1 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
+    sql.query(connectionString, `UPDATE uispMigrationData SET CustomerIDZoho = '${zoho_client_id}', IsSingleCustomer = 1, IsCreatedZoho = 1 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: updateSingleCustomer - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
@@ -203,7 +203,7 @@ exports.getCreatedClients = async() => {
   //SELECT * FROM uispData WHERE IsCreatedZoho = 1
   //SELECT * FROM uispData WHERE uispdbID = 7000
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, 'SELECT * FROM uispMigrationDataFixes WHERE IsCreatedZoho = 1', (err, rows) => {
+    sql.query(connectionString, `SELECT  * FROM uispMigrationData WHERE (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) < (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1)`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getAllData - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
@@ -216,7 +216,7 @@ exports.getCreatedClients = async() => {
 
 exports.resetCustomer = async(uispdbID) => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `UPDATE uispMigrationDataFixes SET CustomerIDZoho = null, ZohoSubscriptionID = null, IsSingleCustomer = 0, IsCreatedZoho = 0, IsDebtUpdated = 0 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
+    sql.query(connectionString, `UPDATE uispMigrationData SET CustomerIDZoho = null, ZohoSubscriptionID = null, IsSingleCustomer = 0, IsCreatedZoho = 0, IsDebtUpdated = 0 WHERE uispdbID = ${uispdbID}`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getAllData - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
@@ -259,7 +259,7 @@ exports.updateClientDebt = async(CustomerIDUISP) => {
 //Actualización de campos de suscripciones
 exports.updateClientSubscriptions = async(uispdbID, subscriptions_id) => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `UPDATE uispMigrationDataFixes SET ZohoSubscriptionID = '${subscriptions_id}' WHERE uispdbID = ${uispdbID}`, (err, rows) => {
+    sql.query(connectionString, `UPDATE uispMigrationData SET ZohoSubscriptionID = '${subscriptions_id}' WHERE uispdbID = ${uispdbID}`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: updateClientSubscriptions - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
@@ -302,4 +302,31 @@ exports.getClientsByEmailUISP = async(email) => {
     console.log("GET_CLIENTS_BY_EMAIL_UISP_DATA ===>", error);
     return error;
   }
+}
+
+//Función para obtener clientes cuyas suscripciones necesitan actualización
+exports.getClientsForUpdate = async() => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `SELECT * FROM uispMigrationData WHERE ZohoSubscriptionID IS NULL AND ServicePlanID IS NOT NULL`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error ${err}`);
+				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+}
+
+exports.updateSubscriptions = async(zoho_string, customer_id_zoho) => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `UPDATE uispMigrationData SET ZohoSubscriptionID = '${zoho_string}' WHERE CustomerIDZoho = ${customer_id_zoho}`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error ${err}`);
+				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
 }

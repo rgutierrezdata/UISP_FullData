@@ -1919,3 +1919,96 @@ module.exports.addCharges = async () => {
   }
 }
 
+module.exports.updateClients = async() => {
+  //Obtener la data de clientes que requieren la actualización de id de suscripciones de zoho
+  const uisp_clients = await uisp.getClientsForUpdate()
+	.then(data => {
+    return data;
+	})
+	.catch(err => {
+    console.log("ERROR_GETTING_CLIENTS_FOR_UPDATE ===>", err);
+		logger.log('error',`File: uisp_handlers.js - Function Name: updateClients - Error ${err}`);
+	})
+
+  console.log("LISTA_CLIENTES_ACTUALIZAR ===>", uisp_clients.length);
+
+  //Procesamiento de cada cliente
+  for(client of uisp_clients) {
+    /*** Token para acceder a Zoho ***/
+    const billing_config = await configuration.retrieveBillingConfig('63754c44');
+
+    const {billing_system_id: billing_system, integration_config: configString} = billing_config;
+    const configJSON = JSON.parse(configString);
+
+    const { 
+      organizationid: organizationid, 
+      domain_url: domain_url, 
+      client_id: client_id,
+      client_secret: client_secret,
+      redirect_url: redirect_url,
+      refresh_token: refresh_token, 
+      created_at: created_at
+    } = configJSON;
+
+    let oauthtoken = "";
+   
+    //Calculate access token remaining validity time
+    const elapsed_time = Date.now() - created_at;
+    const remaining_time = 3600000 - elapsed_time;
+    const elapsed_min = elapsed_time / 60000;
+    const remaining_min = remaining_time / 60000;
+    
+    if(remaining_min <= 5) {
+      const token_data = await zoho.generateAccessToken(client_id, client_secret, refresh_token);
+      
+      if(token_data) {
+        const {access_token: access_token} = token_data;
+        const new_created_at = Date.now().toString();
+
+        const config = {
+          "organizationid"    : organizationid,
+          "oauthtoken"        : access_token,
+          "domain_url"        : domain_url,
+          "client_id"         : client_id,
+          "client_secret"     : client_secret,
+          "redirect_url"      : redirect_url,
+          "refresh_token"     : refresh_token,
+          "created_at"        : new_created_at
+        }
+        
+        const zoho_config = JSON.stringify(config);
+        
+        const data = await configuration.insertZohoNewConfig(zoho_config, '63754c44');
+
+        if(data) {
+          oauthtoken = access_token;
+        }
+      }
+    }
+    else {
+      oauthtoken = configJSON.oauthtoken;
+    }
+    /*** Token para acceder a zoho ***/
+    
+    const client_subscriptions = await zoho.getAllSubscriptions(domain_url, organizationid, oauthtoken, client.CustomerIDZoho);
+    const array_subscriptions = client_subscriptions.subscriptions;
+
+    let subscriptions_string = "";
+    for(subscription of array_subscriptions) {
+      if(subscriptions_string.length === 0) {
+        subscriptions_string = subscription.subscription_id;
+      }
+      else {
+        subscriptions_string = subscriptions_string + "," + subscription.subscription_id;
+      }
+    }
+
+    if(subscriptions_string.length === 0) {
+      subscriptions_string = null;
+    }
+
+    await uisp.updateSubscriptions(subscriptions_string, client.CustomerIDZoho);
+
+  }
+
+}
