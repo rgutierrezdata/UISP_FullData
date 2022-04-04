@@ -1,0 +1,22 @@
+--Selección de usuarios duplicados uispMigrationData
+SELECT CustomerIDUISP, DisplayName, SubscriptionCodes, SubscriptionDescription, (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS '# Servicios',
+(DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS '# Suscripciones Zoho', ZohoSubscriptionID, IsCreatedZoho FROM uispMigrationData 
+WHERE (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) < (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1)
+
+--Selección de usuarios duplicados uispMigrationDataFixes
+SELECT CustomerIDUISP, DisplayName, SubscriptionCodes, SubscriptionDescription, (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS '# Servicios',
+(DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS '# Suscripciones Zoho', ZohoSubscriptionID, IsCreatedZoho FROM uispMigrationDataFixes
+WHERE (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) < (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1)
+
+--Seleccionar todo para los usuarios con suscripciones duplicadas
+SELECT CustomerIDZoho FROM uispMigrationData WHERE (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) < (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1)
+
+
+--Actualización de suscripciones en uispMigrationData
+
+SELECT * FROM uispMigrationData WHERE ZohoSubscriptionID IS NULL AND ServicePlanID IS NOT NULL
+SELECT * FROM uispMigrationDataFixes WHERE uispdbID BETWEEN 336 AND 351
+
+SELECT ZohoSubscriptionID, ServicePlanID FROM uispMigrationDataFixes WHERE ServicePlanID IS NOT NULL AND uispdbID BETWEEN 336 AND 351
+
+SELECT * FROM uispMigrationData WHERE CustomerIDUISP = 649
