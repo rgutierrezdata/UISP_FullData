@@ -307,7 +307,7 @@ exports.getClientsByEmailUISP = async(email) => {
 //Función para obtener clientes cuyas suscripciones necesitan actualización
 exports.getClientsForUpdate = async() => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `SELECT * FROM uispMigrationData WHERE ZohoSubscriptionID IS NULL AND ServicePlanID IS NOT NULL`, (err, rows) => {
+    sql.query(connectionString, `SELECT * FROM uispMigrationData WHERE uispdbID = 8652`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error ${err}`);
 				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);

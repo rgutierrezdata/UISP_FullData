@@ -1,0 +1,193 @@
+SELECT SubscriptionCodes, ServicePlanID FROM uispMigrationData WHERE SubscriptionCodes <> '' AND SubscriptionCodes LIKE 'FCPRO'
+
+SELECT * FROM uispMigrationData WHERE ZohoSubscriptionID LIKE '%no_creada%'
+
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationData
+WHERE (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) > 1 AND CAST(ZohoSubscriptionID AS VARCHAR(MAX)) <> '' AND (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) > (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1)
+
+UPDATE uispMigrationData SET ZohoSubscriptionID = '2968226000001645808,no_creada' WHERE uispdbID = 8189
+UPDATE uispMigrationData SET SubscriptionCodes = 'FPMEGA,no_creada' WHERE uispdbID = 8189
+
+--122
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationData
+WHERE uispdbID = 122
+
+--158
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationData
+WHERE uispdbID = 158
+
+--2573
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationData
+WHERE uispdbID = 2573
+
+--3360
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationData
+WHERE uispdbID = 3360
+
+--5878
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationData
+WHERE uispdbID = 5878
+
+--6222
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationData
+WHERE uispdbID = 6222
+
+--6634
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationData
+WHERE uispdbID = 6634
+
+--8102
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationData
+WHERE uispdbID = 8102
+
+--8189
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationData
+WHERE uispdbID = 8189
+
+--SELECT * FROM uispMigrationData WHERE DisplayName LIKE 'ARQUITECTOS NAVALES & ASOCIADOS, S.A.'
+
+SELECT * FROM uispMigrationDataFixes
+
+SELECT * FROM uispMigrationData
+
+SELECT * FROM uispMigrationDataFixes WHERE uispdbID BETWEEN 336 AND 351
+
+SELECT uispdbID, DisplayName, SubscriptionDescription, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationDataFixes
+WHERE (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) > 1 AND CAST(ZohoSubscriptionID AS VARCHAR(MAX)) <> '' AND (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) > (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1)
+
+UPDATE uispMigrationDataFixes SET ZohoSubscriptionID = '2968226000001645808,no_creada' WHERE uispdbID = 54
+UPDATE uispMigrationDataFixes SET SubscriptionCodes = 'FPMEGA,no_creada' WHERE uispdbID = 54
+
+--uispMigrationDataFixes
+
+--1
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationDataFixes
+WHERE uispdbID = 1
+
+--54
+SELECT uispdbID, DisplayName, UISPSubscriptionID, ZohoSubscriptionID, SubscriptionCodes,  (LEN(ServicePlanID) - LEN(REPLACE(ServicePlanID,',','')) + 1) AS 'UISPSubscriptionID', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationDataFixes
+WHERE uispdbID = 54
+
+--Verificando planes
+SELECT uispdbID, DisplayName, CustomerIDUISP, CustomerIDZoho, UISPSubscriptionID, ZohoSubscriptionID, ServicePlanID, SubscriptionCodes,  (LEN(SubscriptionCodes) - LEN(REPLACE(SubscriptionCodes,',','')) + 1) AS 'SubscriptionCodes', (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1) AS 'ZohoSubscriptionID'   FROM uispMigrationData
+WHERE (LEN(SubscriptionCodes) - LEN(REPLACE(SubscriptionCodes,',','')) + 1) < (DATALENGTH(ZohoSubscriptionID) - DATALENGTH(REPLACE(CAST(ZohoSubscriptionID AS VARCHAR(MAX)),',','')) + 1)
+
+UPDATE uispMigrationData SET SubscriptionCodes = 'FPLIT,FPLIT' WHERE uispdbID = 8652
+
+
+--No crear suscripcion
+
+
+
+
+
+
+
+SELECT SubscriptionCodes, ServicePlanID, ServicePlanPeriodID, ServicePlanPeriod FROM uispMigrationData 
+WHERE SubscriptionCodes LIKE '%FPMEGA%'
+AND ServicePlanID LIKE '%161%'
+AND ServicePlanPeriodID LIKE '%1373%'
+AND ServicePlanPeriod LIKE '%1%'
+
+SELECT * FROM uispMigrationData WHERE ZohoSubscriptionID LIKE '%2968226000001467262%'
+
+SELECT * FROM uispMigrationDataFixes WHERE uispdbID BETWEEN 336 AND 351
+
+SELECT CustomerIDZoho, CustomerIDUISP, Node, SubscriptionCodes, ServicePlanID, ServicePlanPeriodID, ServicePlanPeriod, 
+ZohoSubscriptionID, UISPSubscriptionID FROM uispMigrationDataFixes WHERE uispdbID BETWEEN 336 AND 351
+
+
+
+
+-- SELECT * FROM dbo.UISP_View
+
+-- Clientes
+SELECT CustomerIDZoho AS id, CustomerIDUISP AS uisp_id, Node AS uisp_organization_id FROM dbo.uispMigrationDataFixes WHERE uispdbID BETWEEN 336 AND 351
+FOR JSON PATH
+
+-- Planes
+-- SELECT SubscriptionCodes AS zoho_plan_code, ServicePlanID AS uisp_service_plan_id, ServicePlanPeriodID AS uisp_service_plan_period_id, ServicePlanPeriod AS uisp_service_plan_period FROM dbo.UISP_View
+
+-- SELECT * FROM dbo.UISP_View
+-- SELECT STRING_SPLIT(SubscriptionCodes, ';') AS zoho_plan_code, ServicePlanID AS uisp_service_plan_id, ServicePlanPeriodID AS uisp_service_plan_period_id, ServicePlanPeriod AS uisp_service_plan_period FROM dbo.UISP_View
+SELECT DISTINCT zoho_plan_code as id, CONVERT(int,uisp_service_plan_id) as uisp_id, CONVERT(int,uisp_service_plan_period_id) as uisp_period_id, CONVERT(int,uisp_service_plan_period) as uisp_period FROM (
+SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# , value as zoho_plan_code, CustomerIDUISP as customer FROM uispMigrationDataFixes s CROSS APPLY STRING_SPLIT(SubscriptionCodes, ',') WHERE SubscriptionCodes <> '' AND SubscriptionCodes <> 'null' AND SubscriptionCodes IS NOT NULL AND uispdbID BETWEEN 336 AND 351) as s
+INNER JOIN (
+	SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# ,value as uisp_service_plan_id FROM dbo.uispMigrationDataFixes p CROSS APPLY STRING_SPLIT(ServicePlanID, ',') WHERE SubscriptionCodes <> '' AND SubscriptionCodes <> 'null' AND SubscriptionCodes IS NOT NULL AND uispdbID BETWEEN 336 AND 351)  as p
+on p.Row# = s.Row#
+INNER JOIN (
+	SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# ,value as uisp_service_plan_period_id FROM dbo.uispMigrationDataFixes p CROSS APPLY STRING_SPLIT(ServicePlanPeriodID, ',') WHERE SubscriptionCodes <> '' AND SubscriptionCodes <> 'null' AND SubscriptionCodes IS NOT NULL AND uispdbID BETWEEN 336 AND 351)  as pi
+on p.Row# = pi.Row#
+INNER JOIN (
+	SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# ,value as uisp_service_plan_period FROM dbo.uispMigrationDataFixes p CROSS APPLY STRING_SPLIT(ServicePlanPeriod, ',') WHERE SubscriptionCodes <> '' AND SubscriptionCodes <> 'null' AND SubscriptionCodes IS NOT NULL AND uispdbID BETWEEN 336 AND 351)  as per
+on p.Row# = per.Row# WHERE zoho_plan_code <> 'No crear suscripcion'
+FOR JSON PATH
+
+-- SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# , value as zoho_plan_code FROM dbo.UISP_View CROSS APPLY STRING_SPLIT(SubscriptionCodes, ';')
+
+-- Subscripciones
+
+
+SELECT DISTINCT zoho_subscription_id as id, CONVERT(int,uisp_service_id) as uisp_id FROM (
+SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# , value as zoho_subscription_id FROM dbo.uispMigrationDataFixes s CROSS APPLY STRING_SPLIT(CAST(ZohoSubscriptionID AS VARCHAR(MAX)), ',') WHERE CAST(ZohoSubscriptionID AS VARCHAR(MAX)) IS NOT NULL AND CAST(ZohoSubscriptionID AS VARCHAR(MAX)) <> '' AND CAST(ZohoSubscriptionID AS VARCHAR(MAX)) <> 'null' AND uispdbID BETWEEN 336 AND 351) as s
+INNER JOIN (
+	SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# ,value as uisp_service_id FROM dbo.uispMigrationDataFixes p CROSS APPLY STRING_SPLIT(UISPSubscriptionID, ',') WHERE CAST(ZohoSubscriptionID AS VARCHAR(MAX)) IS NOT NULL AND CAST(ZohoSubscriptionID AS VARCHAR(MAX)) <> '' AND CAST(ZohoSubscriptionID AS VARCHAR(MAX)) <> 'null' AND uispdbID BETWEEN 336 AND 351)  as p
+on p.Row# = s.Row#
+FOR JSON PATH
+
+                                                                                                                               cast(freeTxt as varchar(max))
+-- SELECT ZohoSubscriptionID AS zoho_subscription_id, UISPSubscriptionID AS uisp_service_id FROM dbo.UISP_View
+
+
+-- delete from dbo.UISP_View
+
+
+-- SELECT * FROM dbo.UISP_View
+
+
+
+
+-- SELECT * FROM dbo.UISP_View
+
+-- Clientes
+SELECT CustomerIDZoho AS id, CustomerIDUISP AS uisp_id, Node AS uisp_organization_id FROM dbo.uispMigrationData
+FOR JSON PATH
+
+-- Planes
+-- SELECT SubscriptionCodes AS zoho_plan_code, ServicePlanID AS uisp_service_plan_id, ServicePlanPeriodID AS uisp_service_plan_period_id, ServicePlanPeriod AS uisp_service_plan_period FROM dbo.UISP_View
+
+-- SELECT * FROM dbo.UISP_View
+-- SELECT STRING_SPLIT(SubscriptionCodes, ';') AS zoho_plan_code, ServicePlanID AS uisp_service_plan_id, ServicePlanPeriodID AS uisp_service_plan_period_id, ServicePlanPeriod AS uisp_service_plan_period FROM dbo.UISP_View
+SELECT DISTINCT zoho_plan_code as id, CONVERT(int,uisp_service_plan_id) as uisp_id, CONVERT(int,uisp_service_plan_period_id) as uisp_period_id, CONVERT(int,uisp_service_plan_period) as uisp_period FROM (
+SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# , value as zoho_plan_code, CustomerIDUISP as customer FROM uispMigrationData s CROSS APPLY STRING_SPLIT(SubscriptionCodes, ',') WHERE SubscriptionCodes <> '' AND SubscriptionCodes <> 'null' AND SubscriptionCodes IS NOT NULL) as s
+INNER JOIN (
+	SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# ,value as uisp_service_plan_id FROM dbo.uispMigrationData p CROSS APPLY STRING_SPLIT(ServicePlanID, ',') WHERE SubscriptionCodes <> '' AND SubscriptionCodes <> 'null' AND SubscriptionCodes IS NOT NULL)  as p
+on p.Row# = s.Row#
+INNER JOIN (
+	SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# ,value as uisp_service_plan_period_id FROM dbo.uispMigrationData p CROSS APPLY STRING_SPLIT(ServicePlanPeriodID, ',') WHERE SubscriptionCodes <> '' AND SubscriptionCodes <> 'null' AND SubscriptionCodes IS NOT NULL)  as pi
+on p.Row# = pi.Row#
+INNER JOIN (
+	SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# ,value as uisp_service_plan_period FROM dbo.uispMigrationData p CROSS APPLY STRING_SPLIT(ServicePlanPeriod, ',') WHERE SubscriptionCodes <> '' AND SubscriptionCodes <> 'null' AND SubscriptionCodes IS NOT NULL)  as per
+on p.Row# = per.Row# WHERE zoho_plan_code <> 'No crear suscripcion'
+FOR JSON PATH
+
+-- SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# , value as zoho_plan_code FROM dbo.UISP_View CROSS APPLY STRING_SPLIT(SubscriptionCodes, ';')
+
+-- Subscripciones
+
+
+SELECT DISTINCT zoho_subscription_id as id, CONVERT(int,uisp_service_id) as uisp_id FROM (
+SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# , value as zoho_subscription_id FROM dbo.uispMigrationData s CROSS APPLY STRING_SPLIT(CAST(ZohoSubscriptionID AS VARCHAR(MAX)), ',') WHERE CAST(ZohoSubscriptionID AS VARCHAR(MAX)) IS NOT NULL AND CAST(ZohoSubscriptionID AS VARCHAR(MAX)) <> '' AND CAST(ZohoSubscriptionID AS VARCHAR(MAX)) <> 'null') as s
+INNER JOIN (
+	SELECT ROW_NUMBER() OVER (ORDER BY CustomerIDZoho) as Row# ,value as uisp_service_id FROM dbo.uispMigrationData p CROSS APPLY STRING_SPLIT(UISPSubscriptionID, ',') WHERE CAST(ZohoSubscriptionID AS VARCHAR(MAX)) IS NOT NULL AND CAST(ZohoSubscriptionID AS VARCHAR(MAX)) <> '' AND CAST(ZohoSubscriptionID AS VARCHAR(MAX)) <> 'null')  as p
+on p.Row# = s.Row#
+FOR JSON PATH
+
+                                                                                                                               cast(freeTxt as varchar(max))
+-- SELECT ZohoSubscriptionID AS zoho_subscription_id, UISPSubscriptionID AS uisp_service_id FROM dbo.UISP_View
+
+
+-- delete from dbo.UISP_View
+
+
+-- SELECT * FROM dbo.UISP_View

@@ -2008,7 +2008,7 @@ module.exports.updateClients = async() => {
     }
 
     await uisp.updateSubscriptions(subscriptions_string, client.CustomerIDZoho);
-
+    console.log("CLIENTE ===>", client.CustomerIDZoho);
   }
 
 }
