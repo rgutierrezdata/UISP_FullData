@@ -191,3 +191,56 @@ FOR JSON PATH
 
 
 -- SELECT * FROM dbo.UISP_View
+
+
+--LAST QUERIES
+SELECT * FROM uispMigrationData 
+WHERE ActiveFrom LIKE '%2022-03%'
+AND ActiveFrom NOT LIKE '%2022-03-01%'
+AND ActiveFrom NOT LIKE '%2022-03-02%'
+AND ActiveFrom NOT LIKE '%2022-03-03%'
+AND ActiveFrom NOT LIKE '%2022-03-04%'
+AND ActiveFrom NOT LIKE '%2022-03-05%'
+AND ActiveFrom NOT LIKE '%2022-03-06%'
+AND ActiveFrom NOT LIKE '%2022-03-07%'
+AND ActiveFrom NOT LIKE '%2022-03-08%'
+AND ActiveFrom NOT LIKE '%2022-03-09%'
+ORDER BY ActiveFrom ASC
+
+SELECT * FROM uispMigrationDataFixes
+WHERE ActiveFrom LIKE '%2022-03%'
+AND ActiveFrom NOT LIKE '%2022-03-01%'
+AND ActiveFrom NOT LIKE '%2022-03-02%'
+AND ActiveFrom NOT LIKE '%2022-03-03%'
+AND ActiveFrom NOT LIKE '%2022-03-04%'
+AND ActiveFrom NOT LIKE '%2022-03-05%'
+AND ActiveFrom NOT LIKE '%2022-03-06%'
+AND ActiveFrom NOT LIKE '%2022-03-07%'
+AND ActiveFrom NOT LIKE '%2022-03-08%'
+AND ActiveFrom NOT LIKE '%2022-03-09%'
+AND uispdbID BETWEEN 336 AND 351
+ORDER BY ActiveFrom ASC
+
+
+SELECT * FROM uispMarchClients
+
+/*
+	SELECT * INTO uispMarchClients 
+	FROM uispMigrationData 
+	WHERE ActiveFrom LIKE '%2022-03%'
+	AND ActiveFrom NOT LIKE '%2022-03-01%'
+	AND ActiveFrom NOT LIKE '%2022-03-02%'
+	AND ActiveFrom NOT LIKE '%2022-03-03%'
+	AND ActiveFrom NOT LIKE '%2022-03-04%'
+	AND ActiveFrom NOT LIKE '%2022-03-05%'
+	AND ActiveFrom NOT LIKE '%2022-03-06%'
+	AND ActiveFrom NOT LIKE '%2022-03-07%'
+	AND ActiveFrom NOT LIKE '%2022-03-08%'
+	AND ActiveFrom NOT LIKE '%2022-03-09%'
+	ORDER BY ActiveFrom ASC
+*/
+
+SELECT * FROM uispMigrationData 
+WHERE ActiveFrom LIKE '%2022-03-10%'
+OR ActiveFrom LIKE '%2022-03-11%'
+ORDER BY ActiveFrom ASC
