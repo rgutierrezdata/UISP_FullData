@@ -2335,7 +2335,7 @@ async function process_march_client(domain_url, organizationid, oauthtoken, subs
   const inv_details_prev_info = JSON.stringify(invoices_detail_prev_info);
 
   await uisp.updateMarchClientUISP(client.uispdbID, subscriptions_prev_info, invoices_prev_info, inv_details_prev_info, has_credit, 1);
-  
+  console.log("CLIENTE_ACTUALIZADO_uispdbID ===>", client.uispdbID);
 }
 
 async function get_subscription_cf(subscription) {
