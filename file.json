@@ -1,0 +1,21 @@
+{
+  "email": "Rafaelparraf@hotmail.com",
+  "billing_integration": true,
+  "amount": 25,
+  "zelle_ref_number": "14032397022",
+  "customer_name": "RAFAEL ANGEL DE JESUS",
+  "customer_lastName": "PARRA FUENMAYOR",
+  "customer_id": "2968226000001186216",
+  "invoices": [
+    {
+      "id": "2968226000001795787",
+      "number": "FDNC-01226",
+      "date": "2022-04-01T00:00:00.000Z",
+      "due_date": "2022-04-01T00:00:00.000Z",
+      "total": 25,
+      "balance": 25,
+      "status": "overdue"
+    }
+  ],
+  "api_key": "63754c44"
+}

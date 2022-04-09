@@ -1,5 +1,6 @@
 const logger = require('../../../config/logger.js');
 const axios = require('axios');
+const FormData = require('form-data');
 
 //Solicitud de nuevo token de acceso para Zoho Subscriptions
 exports.generateAccessToken = async (client_id, client_secret, refresh_token) => {
@@ -259,6 +260,99 @@ exports.addChargeToSubscription = async(domain_url, organizationid, oauthtoken, 
     return error;
   }
 }
+
+exports.updateNextBillingDate = async(domain_url, organizationid, oauthtoken, subscription_id, zoho_body) => {
+  const URL = `https://${domain_url}/api/v1/subscriptions/${subscription_id}/postpone`;
+
+  const headers = {
+    "X-com-zoho-subscriptions-organizationid": organizationid,
+    "Authorization": `Zoho-oauthtoken ${oauthtoken}`
+  }
+
+  try {
+    const response = await axios.post(URL, zoho_body, {headers: headers});
+    return response.data;
+  }
+  catch(error) {
+    logger.log('info',`File: zoho.js - Function Name: updateNextBillingDate - Error ${error.response.data.message}`);
+    console.log("UPDATE_NEXT_BILLING_DATE_ERROR ===>", error);
+    return error;
+  }
+}
+
+exports.get_all_invoices = async(domain_url, organizationid, oauthtoken, customer_id) => {
+  const URL = `https://${domain_url}/api/v1/invoices?customer_id=${customer_id}`;
+  
+  const headers = {
+    "X-com-zoho-subscriptions-organizationid": organizationid,
+    "Authorization": `Zoho-oauthtoken ${oauthtoken}`
+  }
+
+  try {
+    const response = await axios.get(URL, {headers: headers});
+    return response.data;
+  }
+  catch(error) {
+    logger.log('info',`File: zoho.js - Function Name: updateNextBillingDate - Error ${error.response.data.message}`);
+    console.log("GET_ALL_INVOICES_ERROR ===>", error);
+    return error;
+  }
+}
+
+exports.get_invoice_detail = async(domain_url, organizationid, oauthtoken, invoice_id) => {
+  const URL = `https://${domain_url}/api/v1/invoices/${invoice_id}`;
+  
+  const headers = {
+    "X-com-zoho-subscriptions-organizationid": organizationid,
+    "Authorization": `Zoho-oauthtoken ${oauthtoken}`
+  }
+
+  try {
+    const response = await axios.get(URL, {headers: headers});
+    return response.data;
+  }
+  catch(error) {
+    logger.log('info',`File: zoho.js - Function Name: updateNextBillingDate - Error ${error.response.data.message}`);
+    console.log("GET_IVOICE_DETAIL_ERROR ===>", error);
+    return error;
+  }
+}
+
+exports.cancel_subscription = async(domain_url, organizationid, oauthtoken, subscription_id) => {
+  const URL = `https://${domain_url}/api/v1/subscriptions/${subscription_id}/cancel?cancel_at_end=false`;
+
+  const formData = new FormData();
+  formData.append('JSONString', '{"churn_message_id":"2965133000000084248"}');
+  
+
+  const headers = {
+    "content-type": formData.getHeaders()['content-type'],
+    "X-com-zoho-subscriptions-organizationid": organizationid,
+    "Authorization": `Zoho-oauthtoken ${oauthtoken}`
+  }
+  console.log("HEADERS ===>", headers)
+  
+  try {
+    const response = await axios.post(URL, formData, {headers: headers});
+    return response.data;
+  }
+  catch(error) {
+    logger.log('info',`File: zoho.js - Function Name: cancel_subscription - Error ${error.response.data.message}`);
+    console.log("CANCEL_SUBSCRIPTION_ERROR ===>", error);
+    return error;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 //Cancelar o colocar como expiradas subscripciones que tienen estado distinto de activo
 

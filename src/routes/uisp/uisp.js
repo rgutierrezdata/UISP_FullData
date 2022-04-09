@@ -330,3 +330,61 @@ exports.updateSubscriptions = async(zoho_string, customer_id_zoho) => {
 		});
 	});
 }
+
+//Función para obtener a clientes correspondientes al mes de Marzo para actualización de Próxima factura
+exports.getClientsToUpdateNextBillingAt = async() => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `SELECT * FROM uispMigrationData WHERE uispdbID = 428`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error ${err}`);
+				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+}
+
+exports.updateBillingDate = async(uispdbID) => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `UPDATE uispMigrationData SET IsBillingUpdated = 1 WHERE uispdbID=${uispdbID}`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error ${err}`);
+				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+}
+
+exports.getMarchClients = async() => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `SELECT * FROM uispMarchClients`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getMarchClients - Error ${err}`);;
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+}
+
+exports.updateMarchClientUISP = async(id, subscriptions_prev_info, invoices_prev_info, inv_details_prev_info, has_credit, is_updated) => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `
+    UPDATE uispMarchClients 
+    SET SubscriptionPrevInfo = '${subscriptions_prev_info}', 
+    InvoicesPrevInfo = '${invoices_prev_info}', 
+    InvoicesDetailPrevInfo = '${inv_details_prev_info}', 
+    HasCredit = ${has_credit}, 
+    IsUpdated = ${is_updated} 
+    WHERE uispdbID = ${id}`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: updateMarchClientUISP - Error ${err}`);;
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+}

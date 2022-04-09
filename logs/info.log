@@ -1,9 +1,0 @@
-{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Invalid value passed for Email","timestamp":"2022-04-04T15:13:40.465Z"}
-{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Invalid value passed for Email","timestamp":"2022-04-04T16:15:38.583Z"}
-{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Valor no válido para plan_code","timestamp":"2022-04-04T16:26:18.017Z"}
-{"level":"info","message":"File: zoho.js - Function Name: createSubscriptionCustomer - Error Valor no válido para plan_code","timestamp":"2022-04-04T17:32:01.354Z"}
-{"level":"error","message":"Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Operand type clash: numeric is incompatible with text","timestamp":"2022-04-04T17:47:05.776Z"}
-{"level":"error","message":"Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Operand type clash: numeric is incompatible with text","timestamp":"2022-04-04T17:48:46.069Z"}
-{"level":"error","message":"Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Operand type clash: numeric is incompatible with text","timestamp":"2022-04-04T17:49:09.486Z"}
-{"level":"error","message":"Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Operand type clash: numeric is incompatible with text","timestamp":"2022-04-04T17:49:58.784Z"}
-{"level":"error","message":"Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Operand type clash: numeric is incompatible with text","timestamp":"2022-04-04T17:53:03.235Z"}

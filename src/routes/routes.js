@@ -8,5 +8,7 @@ router.put('/migrateData', uisp.migrateData);
 router.delete('/cleanData', uisp.cleanData);
 router.put('/addCharges', uisp.addCharges);
 router.put('/updateZIDs', uisp.updateClients);
+router.put('/updateBillingDateMarch', uisp.updateBillingDateMarch);
+router.put('/updateMarchClients', uisp.updateMarchClients);
 
 module.exports = router;
