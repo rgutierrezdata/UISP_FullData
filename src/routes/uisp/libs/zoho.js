@@ -322,7 +322,7 @@ exports.cancel_subscription = async(domain_url, organizationid, oauthtoken, subs
   const URL = `https://${domain_url}/api/v1/subscriptions/${subscription_id}/cancel?cancel_at_end=false`;
 
   const formData = new FormData();
-  formData.append('JSONString', '{"churn_message_id":"2965133000000084248"}');
+  formData.append('JSONString', '{"churn_message_id": "2968226000000081253"}');
   
 
   const headers = {
@@ -330,7 +330,6 @@ exports.cancel_subscription = async(domain_url, organizationid, oauthtoken, subs
     "X-com-zoho-subscriptions-organizationid": organizationid,
     "Authorization": `Zoho-oauthtoken ${oauthtoken}`
   }
-  console.log("HEADERS ===>", headers)
   
   try {
     const response = await axios.post(URL, formData, {headers: headers});

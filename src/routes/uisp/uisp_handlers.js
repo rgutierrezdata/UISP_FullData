@@ -2083,7 +2083,6 @@ module.exports.updateMarchClients = async() => {
 	})
 
   console.log("CANTIDAD_CLIENTES ===>", uisp_clients.length);
-
   //Lógica para actualización de clientes
   let client_counter = 0;
   let timer = setInterval(function(){ 
@@ -2093,7 +2092,7 @@ module.exports.updateMarchClients = async() => {
       console.log("ACTUALIZACION FINALIZADA");
       clearInterval(timer);
     }
-  }, 20000);
+  }, 15000);
 
   async function updateMarchClientFunction(client) {
     const {domain_url, organizationid, oauthtoken} = await zoho_access_token('63754c44');

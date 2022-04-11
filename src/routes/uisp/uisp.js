@@ -360,7 +360,22 @@ exports.updateBillingDate = async(uispdbID) => {
 
 exports.getMarchClients = async() => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `SELECT * FROM uispMarchClients`, (err, rows) => {
+    sql.query(connectionString, `
+    SELECT * FROM uispMarchClients 
+    WHERE ActiveFrom LIKE '%2022-03%'
+    AND ActiveFrom NOT LIKE '%2022-03-01%'
+    AND ActiveFrom NOT LIKE '%2022-03-02%'
+    AND ActiveFrom NOT LIKE '%2022-03-03%'
+    AND ActiveFrom NOT LIKE '%2022-03-04%'
+    AND ActiveFrom NOT LIKE '%2022-03-05%'
+    AND ActiveFrom NOT LIKE '%2022-03-06%'
+    AND ActiveFrom NOT LIKE '%2022-03-07%'
+    AND ActiveFrom NOT LIKE '%2022-03-08%'
+    AND ActiveFrom NOT LIKE '%2022-03-09%'
+    AND ActiveFrom NOT LIKE '%2022-03-10%'
+    AND ActiveFrom NOT LIKE '%2022-03-11%'
+    ORDER BY ActiveFrom ASC
+    `, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getMarchClients - Error ${err}`);;
 				return reject("Error");
