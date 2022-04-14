@@ -10,5 +10,7 @@ router.put('/addCharges', uisp.addCharges);
 router.put('/updateZIDs', uisp.updateClients);
 router.put('/updateBillingDateMarch', uisp.updateBillingDateMarch);
 router.put('/updateMarchClients', uisp.updateMarchClients);
+router.get('/processDates', uisp.processDates);
+router.post('/registerPaymentLogs', uisp.registerPaymentLogs);
 
 module.exports = router;

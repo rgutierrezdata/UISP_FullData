@@ -361,20 +361,19 @@ exports.updateBillingDate = async(uispdbID) => {
 exports.getMarchClients = async() => {
   return new Promise((resolve, reject) => {
     sql.query(connectionString, `
-    SELECT * FROM uispMarchClients 
-    WHERE ActiveFrom LIKE '%2022-03%'
-    AND ActiveFrom NOT LIKE '%2022-03-01%'
-    AND ActiveFrom NOT LIKE '%2022-03-02%'
-    AND ActiveFrom NOT LIKE '%2022-03-03%'
-    AND ActiveFrom NOT LIKE '%2022-03-04%'
-    AND ActiveFrom NOT LIKE '%2022-03-05%'
-    AND ActiveFrom NOT LIKE '%2022-03-06%'
-    AND ActiveFrom NOT LIKE '%2022-03-07%'
-    AND ActiveFrom NOT LIKE '%2022-03-08%'
-    AND ActiveFrom NOT LIKE '%2022-03-09%'
-    AND ActiveFrom NOT LIKE '%2022-03-10%'
-    AND ActiveFrom NOT LIKE '%2022-03-11%'
-    ORDER BY ActiveFrom ASC
+      SELECT * FROM uispMigrationDataFixes
+      WHERE ActiveFrom LIKE '%2022-03%'
+      AND ActiveFrom NOT LIKE '%2022-03-01%'
+      AND ActiveFrom NOT LIKE '%2022-03-02%'
+      AND ActiveFrom NOT LIKE '%2022-03-03%'
+      AND ActiveFrom NOT LIKE '%2022-03-04%'
+      AND ActiveFrom NOT LIKE '%2022-03-05%'
+      AND ActiveFrom NOT LIKE '%2022-03-06%'
+      AND ActiveFrom NOT LIKE '%2022-03-07%'
+      AND ActiveFrom NOT LIKE '%2022-03-08%'
+      AND ActiveFrom NOT LIKE '%2022-03-09%'
+      AND uispdbID BETWEEN 336 AND 351
+      ORDER BY ActiveFrom ASC
     `, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getMarchClients - Error ${err}`);;
@@ -388,7 +387,7 @@ exports.getMarchClients = async() => {
 exports.updateMarchClientUISP = async(id, subscriptions_prev_info, invoices_prev_info, inv_details_prev_info, has_credit, is_updated) => {
   return new Promise((resolve, reject) => {
     sql.query(connectionString, `
-    UPDATE uispMarchClients 
+    UPDATE uispMarchClientsFixes 
     SET SubscriptionPrevInfo = '${subscriptions_prev_info}', 
     InvoicesPrevInfo = '${invoices_prev_info}', 
     InvoicesDetailPrevInfo = '${inv_details_prev_info}', 
@@ -402,4 +401,48 @@ exports.updateMarchClientUISP = async(id, subscriptions_prev_info, invoices_prev
 			resolve(rows);
 		});
 	});
+}
+
+exports.getClientsForDates = async() => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `
+      SELECT * 
+      FROM uispMarchClients 
+      WHERE ActiveFrom LIKE '%2022-03%'
+      AND ActiveFrom NOT LIKE '%2022-03-01%'
+      AND ActiveFrom NOT LIKE '%2022-03-02%'
+      AND ActiveFrom NOT LIKE '%2022-03-03%'
+      AND ActiveFrom NOT LIKE '%2022-03-04%'
+      AND ActiveFrom NOT LIKE '%2022-03-05%'
+      AND ActiveFrom NOT LIKE '%2022-03-06%'
+      AND ActiveFrom NOT LIKE '%2022-03-07%'
+      AND ActiveFrom NOT LIKE '%2022-03-08%'
+      AND ActiveFrom NOT LIKE '%2022-03-09%'
+      AND ActiveFrom NOT LIKE '%2022-03-10%'
+      AND ActiveFrom NOT LIKE '%2022-03-11%' 
+      AND HasCredit = 1
+      ORDER BY ActiveFrom ASC
+    `, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsForDates - Error ${err}`);;
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+  
+}
+
+exports.insertDate = async(display_name, string_date) => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `INSERT INTO datesTable (DisplayName, date) VALUES ('${display_name}', '${string_date}')`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error ${err}`);
+				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+
 }

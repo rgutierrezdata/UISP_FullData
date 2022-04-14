@@ -342,6 +342,25 @@ exports.cancel_subscription = async(domain_url, organizationid, oauthtoken, subs
   }
 }
 
+exports.get_list_events = async(domain_url, organizationid, oauthtoken, date, page) => {
+  const URL = `https://${domain_url}/api/v1/events?event_type=payment_thankyou&date=${date}&page=${page}`;
+
+  const headers = {
+    "X-com-zoho-subscriptions-organizationid": organizationid,
+    "Authorization": `Zoho-oauthtoken ${oauthtoken}`
+  }
+  
+  try {
+    const response = await axios.get(URL, {headers: headers});
+    return response.data;
+  }
+  catch(error) {
+    logger.log('info',`File: zoho.js - Function Name: get_list_events - Error ${error.response.data.message}`);
+    console.log("GET_LIST_EVENTS_ERROR ===>", error);
+    return error;
+  }
+}
+
 
 
 

@@ -2053,7 +2053,7 @@ module.exports.updateBillingDateMarch = async() => {
   }, 11000);
 
   async function updateClientBilling(client) {
-    const {domain_url, organizationid, oauthtoken} = await zoho_access_token('63754c44');
+    const {domain_url, organizationid, oauthtoken} = await zoho_access_token('');
     
     //Solicitud de todas las suscripciones del cliente
     const client_subscriptions = await zoho.getAllSubscriptions(domain_url, organizationid, oauthtoken, client.CustomerIDZoho);
@@ -2068,6 +2068,43 @@ module.exports.updateBillingDateMarch = async() => {
     await process_client(domain_url, organizationid, oauthtoken, subscriptions_data, client_invoices, client);
 
   }
+
+}
+
+module.exports.processDates = async() => {
+  //Clientes que requieren actualización de fecha de facturación
+  let uisp_clients = await uisp.getClientsForDates()
+	.then(data => {
+    return data;
+	})
+	.catch(err => {
+    console.log("ERROR_PROCESS_DATES ===>", err);
+		logger.log('error',`File: uisp_handlers.js - Function Name: processDates - Error ${err}`);
+	})
+
+  console.log("CLIENTES_ACTUALIZAR ===>", uisp_clients.length);
+
+  //Procesamiento de fechas para insertar en base de datos de vuelta
+
+  for(client of uisp_clients) {
+    let string_date = "";
+    const array_invoices = JSON.parse(client.InvoicesDetailPrevInfo);
+
+    for(invoice of array_invoices) {
+      if(invoice.invoice.status === "paid" || invoice.invoice.status === "paid") {
+        if(invoice.invoice.payments.length > 0) {
+          string_date = (string_date.length === 0) ? invoice.invoice.payments[0].date : string_date + "," + invoice.invoice.payments[0].date;
+        }
+      }
+    }
+
+    string_date = (string_date.length === 0) ? null : string_date;
+
+    await uisp.insertDate(client.DisplayName, string_date);
+
+  }
+  
+ 
 
 }
 
@@ -2096,7 +2133,7 @@ module.exports.updateMarchClients = async() => {
 
   async function updateMarchClientFunction(client) {
     const {domain_url, organizationid, oauthtoken} = await zoho_access_token('63754c44');
-    
+
     //Solicitud de todas las suscripciones del cliente
     const client_subscriptions = await zoho.getAllSubscriptions(domain_url, organizationid, oauthtoken, client.CustomerIDZoho);
   
@@ -2115,6 +2152,17 @@ module.exports.updateMarchClients = async() => {
 
   }
 
+}
+
+module.exports.registerPaymentLogs = async() => {
+  const date = '2022-04-01';
+  let page = 1;
+  let 
+
+  //Recuperación de todos los eventos en la fecha determinada
+
+  
+  
 }
 
 //Funciones para renovación suscripción
