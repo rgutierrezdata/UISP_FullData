@@ -2155,14 +2155,58 @@ module.exports.updateMarchClients = async() => {
 }
 
 module.exports.registerPaymentLogs = async() => {
-  const date = '2022-04-01';
-  let page = 1;
-  let 
+  //Clientes con información de pagos
+  let uisp_clients = await uisp.getPaymentClients()
+	.then(data => {
+    return data;
+	})
+	.catch(err => {
+    console.log("ERROR_PAYMENT_LOGS ===>", err);
+		logger.log('error',`File: uisp_handlers.js - Function Name: registerPaymentLogs - Error ${err}`);
+	})
 
-  //Recuperación de todos los eventos en la fecha determinada
+  console.log("CANTIDAD_CLIENTES ===>", uisp_clients.length);
 
-  
-  
+  /*
+    let client_counter = 0;
+    let timer = setInterval(function(){ 
+      analyzeClient(uisp_clients[client_counter]);
+      client_counter +=1;
+      if(client_counter >= uisp_clients.length) {
+        console.log("ACTUALIZACION FINALIZADA");
+        clearInterval(timer);
+      }
+    }, );
+    async function analyzeClient(client) {
+   
+    }
+  */
+
+  //Procesamiento de la información para generar el reporte
+
+  for(let [index, client] of uisp_clients.entries()) {
+    //Arreglo de JSON de todas las facturas del clientes
+    const invoices_logs = JSON.parse(client.InvoicesDetailPrevInfo);
+
+    //Análisis de la información
+
+    for(let [index, invoice] of invoices_logs.entries()) {
+      //customer_name, date, invoice_number, reference_number, payment_mode, total, status
+
+      let customer_name = invoice.invoice.customer_name;
+      let date = (invoice.invoice.payments.length != 0) ? `'${invoice.invoice.payments[0].date}'` : null;
+      let invoice_number = invoice.invoice.invoice_number;
+      let reference_number = (invoice.invoice.payments.length != 0) ? `'${invoice.invoice.payments[0].reference_number}'` : null;
+      let payment_mode = (invoice.invoice.payments.length != 0) ? `'${invoice.invoice.payments[0].payment_mode}'` : null;
+      let total = invoice.invoice.total
+      let status = invoice.invoice.status;
+
+      await uisp.insertPaymentLog(customer_name, date, invoice_number, reference_number, payment_mode, total, status);
+      
+    }
+    
+  }
+
 }
 
 //Funciones para renovación suscripción

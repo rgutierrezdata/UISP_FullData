@@ -446,3 +446,32 @@ exports.insertDate = async(display_name, string_date) => {
 	});
 
 }
+
+exports.getPaymentClients = async() => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `SELECT * FROM uispMarchClients WHERE HasCredit = 1`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsForUpdate - Error ${err}`);
+				//return reject(respose.responseFromServer().error.SYSTEM_ERROR);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+
+}
+
+exports.insertPaymentLog = async(customer_name, date, invoice_number, reference_number, payment_mode, total, invoice_status) => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `
+    INSERT INTO payment_logs (customer_name, date, invoice_number, reference_number, payment_mode, total, status) 
+    VALUES ('${customer_name}', ${date}, '${invoice_number}', ${reference_number}, ${payment_mode}, '${total}', '${invoice_status}')`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: insertPaymentLog - Error ${err}`);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+
+}
