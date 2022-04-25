@@ -361,6 +361,26 @@ exports.get_list_events = async(domain_url, organizationid, oauthtoken, date, pa
   }
 }
 
+exports.retrievePayment = async(domain_url, organizationid, oauthtoken, paymentID) => {
+  const URL = `https://${domain_url}/api/v1/payments/${paymentID}`;
+
+  const headers = {
+    "X-com-zoho-subscriptions-organizationid": organizationid,
+    "Authorization": `Zoho-oauthtoken ${oauthtoken}`
+  }
+
+  try {
+    const data = await axios.get(URL, {headers: headers})
+    return data.data;
+  }
+  catch(error) {
+    logger.log('info',`File: zoho.js - Function Name: deletePayment - Error ${error.response.data.message}`);
+    console.log("ZOHO_RETRIEVE_PAYMENT_ERROR ===>", error);
+    return error;
+  }
+
+}
+
 
 
 

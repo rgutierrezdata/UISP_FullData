@@ -13,8 +13,8 @@ module.exports.fetchData = async (req, res) => {
   let uisp_clients = [];
   let cantidad_clientes = 0;
 
-  let offset = 0;
-  const limit = 15000;
+  let offset = 8899;
+  const limit = 1;
 
   //Atrapando toda la data de clientes en UISP
   
@@ -2209,6 +2209,64 @@ module.exports.registerPaymentLogs = async() => {
 
 }
 
+module.exports.editPendingClients = async() => {
+  //Recuperar clientes a los cuales añadiremos suscripciones
+  /*
+  let uisp_clients = await uisp.obtainPendingClients()
+	.then(data => {
+    return data;
+	})
+	.catch(err => {
+    console.log("ERROR_PENDING_SUBSCRIPTIONS ===>", err);
+		logger.log('error',`File: uisp_handlers.js - Function Name: editPendingClients - Error ${err}`);
+	})
+  */
+
+  let uisp_clients = [
+    {
+      "CustomerIDZoho": "2965133000000736004"
+    }
+  ]
+  console.log("CANTIDAD_CLIENTES ===>", uisp_clients.length);
+
+  //Lógica para actualización de clientes
+  let client_counter = 0;
+  let timer = setInterval(function(){ 
+    editClient(uisp_clients[client_counter]);
+    client_counter +=1;
+    if(client_counter >= uisp_clients.length) {
+      console.log("PROCESO FINALIZADO");
+      clearInterval(timer);
+    }
+  }, 2000);
+
+  async function editClient(client) {
+    const {domain_url, organizationid, oauthtoken} = await zoho_access_token('63754c44');
+
+    //Solicitud de todas las suscripciones del cliente
+    const client_subscriptions = await zoho.getAllSubscriptions(domain_url, organizationid, oauthtoken, client.CustomerIDZoho);
+  
+    //Identificación de cuales son las suscripciones a modificar
+    const subscriptions_to_update = await analyze_subscriptions_data_clients(client_subscriptions.subscriptions);
+    
+    //Solicitud de todas las facturas del cliente
+    const client_invoices = await zoho.get_all_invoices(domain_url, organizationid, oauthtoken, client.CustomerIDZoho);
+    
+    //Variables para la base de datos
+    const subscriptions_prev_info = JSON.stringify(client_subscriptions);
+    const invoices_prev_info = JSON.stringify(client_invoices);
+    
+    //Análisis de correspondencia y actualización
+    await process_pending_client(domain_url, organizationid, oauthtoken, subscriptions_to_update, client_invoices.invoices, client, subscriptions_prev_info, invoices_prev_info);
+
+  }
+
+
+
+
+
+}
+
 //Funciones para renovación suscripción
 async function zoho_access_token(api_key) {
   const billing_config = await configuration.retrieveBillingConfig(api_key);
@@ -2455,10 +2513,133 @@ async function get_zoho_body_add_subscription(client, subscription, custom_field
         "exclude_setup_fee": true
     },
     "custom_fields": custom_fields,
+    "create_backdated_invoice": true,
     "starts_at": subscription.starts_at,
     "allow_partial_payments": true,
     "auto_collect": "false"
   }
 
   return zoho_body;
+}
+
+//Funciones para corregir personas con planes erróneos de Full Data Los Arcos
+//Se reutiliza funciones de get_subscription_cf y get_zoho_body_add_subscription
+async function analyze_subscriptions_data_clients(subscriptions) {
+  let subscriptions_array = [];
+
+  for(let subscription of subscriptions) {
+    let jsn = {
+      "id": subscription.subscription_id,
+      "plan_code": "FRMLITE",
+      "price_sub_total": subscription.sub_total,
+      "custom_fields": subscription.custom_fields,
+      "starts_at": subscription.activated_at
+    }
+    subscriptions_array.push(jsn);
+  }
+  return subscriptions_array;
+}
+
+async function process_pending_client(domain_url, organizationid, oauthtoken, subscriptions, invoices, client, subscriptions_prev_info, invoices_prev_info) {
+  //Análisis suscripciones para limpieza y cargo de créditos
+  let invoices_detail_prev_info = [];
+  let payments_detail_prev_info = [];
+  let has_credit = 0;
+
+  for(let subscription of subscriptions) {
+    let id = subscription.id;
+    
+    for(invoice of invoices) {
+      const invoice_detail = await zoho.get_invoice_detail(domain_url, organizationid, oauthtoken, invoice.invoice_id);
+      invoices_detail_prev_info.push(invoice_detail);
+
+      if(invoice_detail.invoice.subscriptions[0].subscription_id === id) {
+
+        if(invoice_detail.invoice.payments.length > 0) {
+          let paymentID = invoice_detail.invoice.payments[0].payment_id;
+          const payment_detail = await zoho.retrievePayment(domain_url, organizationid, oauthtoken, paymentID);
+          payments_detail_prev_info.push(payment_detail);
+          await zoho.deletePayment(domain_url, organizationid, oauthtoken, paymentID);
+
+          let invoiceID = invoice_detail.invoice.invoice_id;
+          await zoho.deleteInvoice(domain_url, organizationid, oauthtoken, invoiceID);
+        }
+        else {
+          let invoiceID = invoice_detail.invoice.invoice_id;
+          await zoho.deleteInvoice(domain_url, organizationid, oauthtoken, invoiceID);
+        }
+
+        //Eliminar las suscripciones correspondientes
+        for(subscription of subscriptions) {
+          await zoho.deleteSubscription(domain_url, organizationid, oauthtoken, subscription.id);
+        }
+
+        //Creación de la nueva suscripción con plan corregido
+        for(subscription of subscriptions) {
+          const custom_fields = await get_subscription_cf(subscription);
+          const zoho_body = await get_zoho_body_add_subscription(client, subscription, custom_fields);
+          await zoho.addNewSubscription(domain_url, organizationid, oauthtoken, zoho_body);
+        }
+
+        //Finalmente actualizar información en base de datos
+        const inv_details_prev_info = JSON.stringify(invoices_detail_prev_info);
+        const pay_details_prev_info = JSON.stringify(payments_detail_prev_info);
+
+        //Acreditación del pago en cuestión y asociación a la nueva suscripción
+        if(invoice_detail.invoice.status === "paid" || invoice_detail.invoice.status === "partially_paid") {
+          has_credit = 1;
+
+          let client_details = await process_client_details(domain_url, organizationid, oauthtoken, client, payments_detail_prev_info[0]);
+          
+          console.log("DETALLE ==>", client_details);
+          await zoho.addCreditViaPayment(domain_url, organizationid, oauthtoken, client_details);
+          
+        }
+
+        //Actualización del registro
+        await uisp.updateLeClient(client.uispdbID, subscriptions_prev_info, invoices_prev_info, inv_details_prev_info, pay_details_prev_info, has_credit, 1);
+        console.log("CLIENTE_ACTUALIZADO_uispdbID ===>", client.CustomerIDZoho);
+      }
+    }
+  }
+}
+
+async function process_client_details(domain_url, organizationid, oauthtoken, client, payment_details) {
+  //Custom fields
+  let custom_fields = [];
+
+  const custom_fields_payment = payment_details.payment.custom_fields;
+
+  for(custom_field of custom_fields_payment) {
+    let jsn = {
+      "label": custom_field.label,
+      "value": custom_field.value
+    }
+    custom_fields.push(jsn);
+  }
+
+  //Details from new invoice
+  const {invoices: new_invoice} = await zoho.get_all_invoices(domain_url, organizationid, oauthtoken, client.CustomerIDZoho);
+  //Payment body for zoho
+  let jsn = {
+    "customer_id": client.CustomerIDZoho,
+    "amount": payment_details.payment.amount,
+    "date": payment_details.payment.date,
+    "payment_mode": payment_details.payment.payment_mode,
+    "reference_number": payment_details.payment.reference_number,
+    "custom_fields": custom_fields,
+    "description": payment_details.payment.description,
+    "invoices": [
+      {
+        "invoice_id": new_invoice[0].invoice_id,
+        "invoice_number": new_invoice[0].number,
+        "date": payment_details.payment.invoices[0].date,
+        "invoice_amount": new_invoice[0].total,
+        "amount_applied": payment_details.payment.amount,
+        "balance_amount": new_invoice[0].balance
+      }
+    ]
+  }
+
+  return jsn;
 }

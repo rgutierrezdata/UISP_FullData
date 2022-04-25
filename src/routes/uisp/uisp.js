@@ -53,7 +53,7 @@ exports.insertClient = async (firstName, lastName, companyName, displayName, ema
   var bool = true;
 
   const query = `
-    INSERT INTO uispMigrationDataFixes
+    INSERT INTO table_script_1
     (
       FirstName, 
       LastName,
@@ -475,3 +475,41 @@ exports.insertPaymentLog = async(customer_name, date, invoice_number, reference_
 	});
 
 }
+
+exports.obtainPendingClients = async() => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `SELECT * FROM table_script_2 WHERE CustomerIDZoho = 2968226000001245587`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: obtainPendingClients - Error ${err}`);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+
+}
+
+exports.updateLeClient = async(id, subscriptions_prev_info, invoices_prev_info, inv_details_prev_info, pay_details_prev_info, has_credit, is_updated) => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `
+    UPDATE table_script_2 
+    SET SubscriptionPrevInfo = '${subscriptions_prev_info}', 
+    InvoicesPrevInfo = '${invoices_prev_info}', 
+    InvoicesDetailPrevInfo = '${inv_details_prev_info}', 
+    PaymentsPrevInfo = '${pay_details_prev_info}',
+    HasCredit = ${has_credit}, 
+    IsUpdated = ${is_updated} 
+    WHERE uispdbID = ${id}
+    `, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: obtainPendingClients - Error ${err}`);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+
+}
+
+
+

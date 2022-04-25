@@ -12,5 +12,6 @@ router.put('/updateBillingDateMarch', uisp.updateBillingDateMarch);
 router.put('/updateMarchClients', uisp.updateMarchClients);
 router.get('/processDates', uisp.processDates);
 router.post('/registerPaymentLogs', uisp.registerPaymentLogs);
+router.post('/editPendingClients', uisp.editPendingClients);
 
 module.exports = router;
