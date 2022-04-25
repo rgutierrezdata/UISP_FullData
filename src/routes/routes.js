@@ -13,5 +13,6 @@ router.put('/updateMarchClients', uisp.updateMarchClients);
 router.get('/processDates', uisp.processDates);
 router.post('/registerPaymentLogs', uisp.registerPaymentLogs);
 router.post('/editPendingClients', uisp.editPendingClients);
+router.post('/fixIVA', uisp.fixIVA);
 
 module.exports = router;

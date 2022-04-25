@@ -382,16 +382,6 @@ exports.retrievePayment = async(domain_url, organizationid, oauthtoken, paymentI
 }
 
 
-
-
-
-
-
-
-
-
-
-
 //Cancelar o colocar como expiradas subscripciones que tienen estado distinto de activo
 
 /*

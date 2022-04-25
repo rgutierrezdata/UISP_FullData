@@ -511,5 +511,40 @@ exports.updateLeClient = async(id, subscriptions_prev_info, invoices_prev_info, 
 
 }
 
+exports.obtainIVAClients = async() => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `SELECT * FROM table_script_3 WHERE CustomerIDZoho = 2968226000001129719`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: obtainIVAClients - Error ${err}`);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+
+}
+
+exports.updateIVAClient = async(id, subscriptions_prev_info, invoices_prev_info, inv_details_prev_info, pay_details_prev_info, has_credit, is_updated) => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `
+    UPDATE table_script_3 
+    SET SubscriptionPrevInfo = '${subscriptions_prev_info}', 
+    InvoicesPrevInfo = '${invoices_prev_info}', 
+    InvoicesDetailPrevInfo = '${inv_details_prev_info}', 
+    PaymentsPrevInfo = '${pay_details_prev_info}',
+    HasCredit = ${has_credit}, 
+    IsUpdated = ${is_updated} 
+    WHERE uispdbID = ${id}
+    `, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: updateIVAClient - Error ${err}`);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+
+}
+
 
 
