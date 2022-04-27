@@ -2317,6 +2317,7 @@ module.exports.fixIVA = async() => {
     const invoices_prev_info = JSON.stringify(client_invoices);
     
     //Análisis de correspondencia y actualización
+    
     await process_IVA_client(domain_url, organizationid, oauthtoken, subscriptions_to_update, client_invoices.invoices, client, subscriptions_prev_info, invoices_prev_info);
 
   }
