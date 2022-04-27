@@ -478,7 +478,7 @@ exports.insertPaymentLog = async(customer_name, date, invoice_number, reference_
 
 exports.obtainPendingClients = async() => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `SELECT * FROM table_script_2 WHERE CustomerIDZoho = 2968226000001245587`, (err, rows) => {
+    sql.query(connectionString, `SELECT * FROM table_script_2 WHERE CustomerIDZoho = 2968226000001344562`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: obtainPendingClients - Error ${err}`);
 				return reject("Error");
