@@ -513,7 +513,7 @@ exports.updateLeClient = async(id, subscriptions_prev_info, invoices_prev_info, 
 
 exports.obtainIVAClients = async() => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `SELECT * FROM table_script_3 WHERE CustomerIDZoho = 2968226000001113745`, (err, rows) => {
+    sql.query(connectionString, `SELECT * FROM table_script_3 WHERE CustomerIDZoho = 2968226000001586383`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: obtainIVAClients - Error ${err}`);
 				return reject("Error");
