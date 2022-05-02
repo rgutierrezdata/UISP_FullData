@@ -2326,6 +2326,40 @@ module.exports.fixIVA = async() => {
 
 }
 
+module.exports.pauseServices = async() => {
+  //Clientes para suspensión de servicios en UISP
+  
+  let uisp_clients = await uisp.getClientsPauseServices()
+  .then(data => {
+    return data;
+  })
+  .catch(err => {
+    console.log("ERROR_PAUSE_SERVICES ===>", err);
+    logger.log('error',`File: uisp_handlers.js - Function Name: pauseServices - Error ${err}`);
+  })
+
+  console.log("CANTIDAD_CLIENTES ===>", uisp_clients.length);
+
+  //Lógica para cancelación de servicios de los clientes en cuestión
+  let client_counter = 0;
+  let timer = setInterval(function(){ 
+    pauseClient(uisp_clients[client_counter]);
+    client_counter +=1;
+    if(client_counter >= uisp_clients.length) {
+      console.log("PROCESO FINALIZADO");
+      clearInterval(timer);
+    }
+  }, 4000);
+
+  async function pauseClient(client) {
+    const customer_id = client.ID_de_cliente;
+    const subscription_id = client.ID_de_suscripción;
+
+    await uisp.pauseClientService(customer_id, subscription_id);
+    console.log("CLIENTE PROCESADO, ID_de_cliente ====>", customer_id);
+  }
+}
+
 //Funciones para renovación suscripción
 async function zoho_access_token(api_key) {
   const billing_config = await configuration.retrieveBillingConfig(api_key);

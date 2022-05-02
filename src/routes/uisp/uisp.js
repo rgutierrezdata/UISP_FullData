@@ -546,5 +546,41 @@ exports.updateIVAClient = async(id, subscriptions_prev_info, invoices_prev_info,
 
 }
 
+exports.getClientsPauseServices = async() => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `SELECT * FROM pause_clients_uisp`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsPauseServices - Error ${err}`);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
 
+}
 
+exports.pauseClientService = async (customer_id, subscription_id) => {
+  //const URL = process.env.['MANAGE_SUBSCRIPTION_TEST'];
+  const URL = process.env.URL_UISP_PROD;
+
+  const body = {
+    "data" : {
+      "subscription": {
+        "subscription_id": subscription_id,
+        "customer": {
+          "customer_id": customer_id
+        },
+        "status": "paused"
+      }
+    }
+  }
+  
+  try {
+    const response = await axios.post(URL, body);
+    return response.data;
+  }
+  catch(error) {
+    console.log("PAUSE_CLIENT_SERVICE_ERROR ===>", error);
+    return error;
+  }
+}

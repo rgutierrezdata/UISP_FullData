@@ -1,0 +1,2 @@
+{"level":"error","message":"Folder: uisp - File: uisp.js - Function_Name: getClientsPauseServices - Error Error: [Microsoft][SQL Server Native Client 11.0][SQL Server]Invalid object name 'pause_clients_uisp'.","timestamp":"2022-05-02T03:54:11.207Z"}
+{"level":"error","message":"File: uisp_handlers.js - Function Name: pauseServices - Error Error","timestamp":"2022-05-02T03:54:11.252Z"}

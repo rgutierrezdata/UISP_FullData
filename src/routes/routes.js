@@ -14,5 +14,6 @@ router.get('/processDates', uisp.processDates);
 router.post('/registerPaymentLogs', uisp.registerPaymentLogs);
 router.post('/editPendingClients', uisp.editPendingClients);
 router.post('/fixIVA', uisp.fixIVA);
+router.post('/pauseServices', uisp.pauseServices);
 
 module.exports = router;
