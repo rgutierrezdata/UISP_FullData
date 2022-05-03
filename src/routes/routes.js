@@ -15,5 +15,7 @@ router.post('/registerPaymentLogs', uisp.registerPaymentLogs);
 router.post('/editPendingClients', uisp.editPendingClients);
 router.post('/fixIVA', uisp.fixIVA);
 router.post('/pauseServices', uisp.pauseServices);
+router.post('/addClientsName', uisp.addClientsName);
+router.post('/addCustomers', uisp.addCustomers);
 
 module.exports = router;

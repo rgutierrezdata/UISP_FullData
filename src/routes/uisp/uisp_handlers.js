@@ -2353,11 +2353,65 @@ module.exports.pauseServices = async() => {
 
   async function pauseClient(client) {
     const customer_id = client.ID_de_cliente;
-    const subscription_id = client.ID_de_suscripción;
-
+    const subscription_id = client.ID_de_suscripcion;
+    
     await uisp.pauseClientService(customer_id, subscription_id);
-    console.log("CLIENTE PROCESADO, ID_de_cliente ====>", customer_id);
+    console.log(`CLIENTE PROCESADO, ID_de_cliente ====> ${customer_id}, ID_de_suscripción ===> ${subscription_id}`);
   }
+}
+
+module.exports.addClientsName = async() => {
+  //Clientes para solicitar nombres e incluir en reporte
+  
+  let uisp_clients = await uisp.getClientsAddName()
+  .then(data => {
+    return data;
+  })
+  .catch(err => {
+    console.log("ERROR_PAUSE_SERVICES ===>", err);
+    logger.log('error',`File: uisp_handlers.js - Function Name: pauseServices - Error ${err}`);
+  })
+
+  console.log("CANTIDAD_CLIENTES ===>", uisp_clients.length);
+
+  //Lógica para solicitar nombres de los clientes
+  let client_counter = 0;
+  let timer = setInterval(function(){ 
+    searchName(uisp_clients[client_counter]);
+    client_counter +=1;
+    if(client_counter >= uisp_clients.length) {
+      console.log("PROCESO FINALIZADO");
+      clearInterval(timer);
+    }
+  }, 5000);
+
+  async function searchName(client) {
+    const {domain_url, organizationid, oauthtoken} = await zoho_access_token('63754c44');
+    const customer_id = client.customer_id;
+    const subscription_id = client.subscription_id;
+    const client_details = await zoho.retrieve_customer_details(domain_url, organizationid, oauthtoken, customer_id);
+    const display_name = client_details.customer.display_name;
+    await uisp.updateClientsName(customer_id, subscription_id, display_name);
+  }
+
+}
+
+module.exports.addCustomers = async() => {
+  //Obtener todos los clientes hasta la fecha en zoho subscriptions
+  let has_more_page = true;
+  let array_customers = [];
+  let page = 1;
+
+  while (has_more_page) {
+    const {domain_url, organizationid, oauthtoken} = await zoho_access_token('63754c44');
+    const list_all_customers = await zoho.list_of_all_customers(domain_url, organizationid, oauthtoken, page);
+    array_customers = array_customers.concat(list_all_customers.customers);
+    has_more_page = list_all_customers.page_context.has_more_page;
+    page += 1;
+    console.log("LONGITUD ===>", array_customers.length);
+    console.log("DATA ===>", array_customers);
+  }
+
 }
 
 //Funciones para renovación suscripción

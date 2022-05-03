@@ -548,7 +548,7 @@ exports.updateIVAClient = async(id, subscriptions_prev_info, invoices_prev_info,
 
 exports.getClientsPauseServices = async() => {
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, `SELECT * FROM pause_clients_uisp`, (err, rows) => {
+    sql.query(connectionString, `SELECT * FROM pause_clients_uisp_2`, (err, rows) => {
 			if(err) {
 				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsPauseServices - Error ${err}`);
 				return reject("Error");
@@ -580,7 +580,40 @@ exports.pauseClientService = async (customer_id, subscription_id) => {
     return response.data;
   }
   catch(error) {
+    logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: pauseClientService - Error ${error} - data: ${customer_id}; ${subscription_id}`);
     console.log("PAUSE_CLIENT_SERVICE_ERROR ===>", error);
     return error;
   }
 }
+
+exports.getClientsAddName = async() => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `SELECT * FROM report_2`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: getClientsAddName - Error ${err}`);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+
+}
+
+exports.updateClientsName = async(customer_id, subscription_id, display_name) => {
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, `
+    UPDATE report_2 
+    SET DisplayName = '${display_name}' 
+    WHERE customer_id = '${customer_id}'
+    AND subscription_id = '${subscription_id}'`, (err, rows) => {
+			if(err) {
+				logger.log('error',`Folder: uisp - File: uisp.js - Function_Name: updateClientsName - Error ${err}`);
+				return reject("Error");
+			}
+			resolve(rows);
+		});
+	});
+
+}
+
+
