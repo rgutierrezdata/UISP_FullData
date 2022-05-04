@@ -381,7 +381,7 @@ exports.retrievePayment = async(domain_url, organizationid, oauthtoken, paymentI
 
 }
 
-exports.retrieve_customer_details = async(domain_url, organizationid, oauthtoken, customer_id) => {
+exports.retrieve_customer_details = async(domain_url, organizationid, oauthtoken, customer_id, display_name) => {
   const URL = `https://${domain_url}/api/v1/customers/${customer_id}`;
 
   const headers = {
@@ -394,7 +394,7 @@ exports.retrieve_customer_details = async(domain_url, organizationid, oauthtoken
     return data.data;
   }
   catch(error) {
-    logger.log('info',`File: zoho.js - Function Name: retrieve_customer_details - Error ${error.response.data.message}`);
+    logger.log('info',`File: zoho.js - Function Name: retrieve_customer_details - Error ${error.response.data.message} - data: customer_id ===> ${customer_id};${display_name}`);
     console.log("ZOHO_RETRIEVE_CUSTOMER_DETAILS ===>", error);
     return error;
   }
@@ -414,7 +414,7 @@ exports.list_of_all_customers = async(domain_url, organizationid, oauthtoken, pa
     return data.data;
   }
   catch(error) {
-    logger.log('info',`File: zoho.js - Function Name: list_of_all_customers - Error ${error.response.data.message}`);
+    logger.log('info',`File: zoho.js - Function Name: list_of_all_customers - Error ${error.response.data.message} - page ===> ${page}`);
     console.log("ZOHO_LIST_OF_ALL_CUSTOMERS ===>", error);
     return error;
   }

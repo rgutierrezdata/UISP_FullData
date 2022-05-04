@@ -1,6 +1,7 @@
 const logger = require('../../config/logger');
 const sql = require('msnodesqlv8');
 const axios = require('axios');
+const mssql = require("mssql");
 
 const connectionString = "Driver={SQL Server Native Client 11.0};server=DESKTOP-G87VA7A\\SQLEXPRESS;Database=uispdb;Trusted_Connection=Yes;";
 
@@ -614,6 +615,75 @@ exports.updateClientsName = async(customer_id, subscription_id, display_name) =>
 		});
 	});
 
+}
+
+exports.insert_customer = async (IDCompany, CompanyUserID, IDCompanyState, IDCompanyCity, PaymentTypeID, FullName, Email, Phone, CardId, CustomerType, PaymentDate, Comments, ZohoID, CreateAt, FiscalAddress, InstallationAddress) => {
+  let pool;
+
+  try {
+    pool = await mssql.connect(process.env.CONNECTION_STRING_GOSUITE); 
+
+    let result = await pool.request()
+      .input('IDCompany', mssql.Int, IDCompany)
+      .input('CompanyUserID', mssql.Int, CompanyUserID)
+      .input('IDCompanyState', mssql.Int, IDCompanyState)
+      .input('IDCompanyCity', mssql.Int, IDCompanyCity)
+      .input('PaymentTypeID', mssql.Int, PaymentTypeID)
+      .input('FullName', mssql.VarChar, FullName)
+      .input('Email', mssql.VarChar, Email)
+      .input('Phone', mssql.VarChar, Phone)
+      .input('CardId', mssql.VarChar, CardId)
+      .input('CustomerType', mssql.VarChar, CustomerType)
+      .input('PaymentDate', mssql.VarChar, PaymentDate)
+      .input('Comments', mssql.VarChar, Comments)
+      .input('ZohoID', mssql.VarChar, ZohoID)
+      .input('CreateAt', mssql.Date, CreateAt)
+      .input('FiscalAddress', mssql.VarChar, FiscalAddress)
+      .input('InstallationAddress', mssql.VarChar, InstallationAddress)
+      .query(`
+      INSERT INTO customer
+        (IDCompany, 
+        CompanyUserID, 
+        IDCompanyState, 
+        IDCompanyCity, 
+        PaymentTypeID, 
+        Fullname, 
+        Email, 
+        Phone, 
+        CardId, 
+        CustomerType, 
+        PaymentDate, 
+        Comments, 
+        ZohoID, 
+        CreateAt, 
+        FiscalAddress, 
+        InstallationAddress) 
+        VALUES (
+        @IDCompany,
+        @CompanyUserID,
+        @IDCompanyState,
+        @IDCompanyCity,
+        @PaymentTypeID,
+        @FullName, 
+        @Email, 
+        @Phone, 
+        @CardId, 
+        @CustomerType, 
+        @PaymentDate, 
+        @Comments, 
+        @ZohoID, 
+        @CreateAt, 
+        @FiscalAddress, 
+        @InstallationAddress)
+      `
+    );
+
+    return result.rowsAffected[0];
+  }
+  catch(error) {
+    logger.log(`customer_id;display_name - data ===> ${ZohoID};${FullName}`);
+    console.log("INSERT_CUSTOMER_ERROR ===> ", error);
+  }
 }
 
 

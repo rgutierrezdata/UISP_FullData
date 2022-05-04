@@ -2407,9 +2407,34 @@ module.exports.addCustomers = async() => {
     const list_all_customers = await zoho.list_of_all_customers(domain_url, organizationid, oauthtoken, page);
     array_customers = array_customers.concat(list_all_customers.customers);
     has_more_page = list_all_customers.page_context.has_more_page;
+    has_more_page = false;
     page += 1;
-    console.log("LONGITUD ===>", array_customers.length);
-    console.log("DATA ===>", array_customers);
+  }
+
+  for (customer of array_customers) {
+    const {domain_url, organizationid, oauthtoken} = await zoho_access_token('63754c44');
+    const customer_detail = await zoho.retrieve_customer_details(domain_url, organizationid, oauthtoken, customer.customer_id, customer.display_name); 
+   
+    //Data
+    let IDCompany = 9;
+    let CompanyUserID = null;
+    let IDCompanyState = 9;
+    let IDCompanyCity = 10;
+    let PaymentTypeID = null;
+    let FullName = customer.display_name;
+    let Email = customer.email;
+    let Phone = (customer.mobile) ? customer.mobile : null;
+    let CardId = (customer.cf_rif_unformatted) ? customer.cf_rif_unformatted.trim().replace(" ", "").replace("-", "").replace(".", "") : null;
+    let CustomerType = customer_detail.customer.customer_sub_type;
+    let PaymentDate = null;
+    let Comments = null;
+    let ZohoID = customer.customer_id;
+    let CreateAt = customer.created_time.substring(0, customer.created_time.indexOf("T")).trim();
+    let FiscalAddress = customer_detail.customer.billing_address.address;
+    let InstallationAddress = customer_detail.customer.shipping_address.address;
+
+    await uisp.insert_customer(IDCompany, CompanyUserID, IDCompanyState, IDCompanyCity, PaymentTypeID, FullName, Email, Phone, CardId, CustomerType, PaymentDate, Comments, ZohoID, CreateAt, FiscalAddress, InstallationAddress, ZohoID, FullName);
+    console.log("CLIENTE_INSERTADO ===>", ZohoID)
   }
 
 }
