@@ -2407,9 +2407,10 @@ module.exports.addCustomers = async() => {
     const list_all_customers = await zoho.list_of_all_customers(domain_url, organizationid, oauthtoken, page);
     array_customers = array_customers.concat(list_all_customers.customers);
     has_more_page = list_all_customers.page_context.has_more_page;
-    has_more_page = false;
     page += 1;
   }
+
+  console.log("CANTIDD DE CLIENTES ===>", array_customers.length);
 
   for (customer of array_customers) {
     const {domain_url, organizationid, oauthtoken} = await zoho_access_token('63754c44');
@@ -2424,7 +2425,15 @@ module.exports.addCustomers = async() => {
     let FullName = customer.display_name;
     let Email = customer.email;
     let Phone = (customer.mobile) ? customer.mobile : null;
-    let CardId = (customer.cf_rif_unformatted) ? customer.cf_rif_unformatted.trim().replaceAll(" ", "").replaceAll("-", "").replaceAll(".", "") : null;
+    //Tratamiento del RIF del cliente
+    const search_array = [' ', '-', '.'];
+    const replace_with = '';
+    let CardId = (customer.cf_rif_unformatted) ? customer.cf_rif_unformatted.trim() : '';
+    
+    for(let character of search_array) {
+      CardId = CardId.split(character).join(replace_with);
+    }
+
     let CustomerType = customer_detail.customer.customer_sub_type;
     let PaymentDate = null;
     let Comments = null;
