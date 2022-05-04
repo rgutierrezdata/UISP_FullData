@@ -2407,10 +2407,11 @@ module.exports.addCustomers = async() => {
     const list_all_customers = await zoho.list_of_all_customers(domain_url, organizationid, oauthtoken, page);
     array_customers = array_customers.concat(list_all_customers.customers);
     has_more_page = list_all_customers.page_context.has_more_page;
+    console.log(`PAGE ==> ${page}, CANTIDAD DE CLIENTES ==> ${array_customers.length}`);
     page += 1;
   }
 
-  console.log("CANTIDD DE CLIENTES ===>", array_customers.length);
+  console.log("CANTIDD TOTAL DE CLIENTES ===>", array_customers.length);
 
   for (customer of array_customers) {
     const {domain_url, organizationid, oauthtoken} = await zoho_access_token('63754c44');
