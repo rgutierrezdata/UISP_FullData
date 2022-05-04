@@ -571,7 +571,7 @@ exports.pauseClientService = async (customer_id, subscription_id) => {
         "customer": {
           "customer_id": customer_id
         },
-        "status": "paused"
+        "status": "live"
       }
     }
   }
