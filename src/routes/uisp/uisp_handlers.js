@@ -2424,7 +2424,7 @@ module.exports.addCustomers = async() => {
     let FullName = customer.display_name;
     let Email = customer.email;
     let Phone = (customer.mobile) ? customer.mobile : null;
-    let CardId = (customer.cf_rif_unformatted) ? customer.cf_rif_unformatted.trim().replace(" ", "").replace("-", "").replace(".", "") : null;
+    let CardId = (customer.cf_rif_unformatted) ? customer.cf_rif_unformatted.trim().replaceAll(" ", "").replaceAll("-", "").replaceAll(".", "") : null;
     let CustomerType = customer_detail.customer.customer_sub_type;
     let PaymentDate = null;
     let Comments = null;
