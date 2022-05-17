@@ -17,5 +17,6 @@ router.post('/fixIVA', uisp.fixIVA);
 router.post('/pauseServices', uisp.pauseServices);
 router.post('/addClientsName', uisp.addClientsName);
 router.post('/addCustomers', uisp.addCustomers);
+router.post('/addSubscriptions', uisp.addSubscriptions);
 
 module.exports = router;

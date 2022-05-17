@@ -2407,6 +2407,7 @@ module.exports.addCustomers = async() => {
     const list_all_customers = await zoho.list_of_all_customers(domain_url, organizationid, oauthtoken, page);
     array_customers = array_customers.concat(list_all_customers.customers);
     has_more_page = list_all_customers.page_context.has_more_page;
+    has_more_page = false;
     console.log(`PAGE ==> ${page}, CANTIDAD DE CLIENTES ==> ${array_customers.length}`);
     page += 1;
   }
@@ -2442,9 +2443,96 @@ module.exports.addCustomers = async() => {
     let CreateAt = customer.created_time.substring(0, customer.created_time.indexOf("T")).trim();
     let FiscalAddress = customer_detail.customer.billing_address.address;
     let InstallationAddress = customer_detail.customer.shipping_address.address;
+    let FirstName = (customer_detail.customer.first_name !== '') ? customer_detail.customer.first_name : null;
+    let Lastname = (customer_detail.customer.last_name !== '') ? customer_detail.customer.last_name : null;
 
-    await uisp.insert_customer(IDCompany, CompanyUserID, IDCompanyState, IDCompanyCity, PaymentTypeID, FullName, Email, Phone, CardId, CustomerType, PaymentDate, Comments, ZohoID, CreateAt, FiscalAddress, InstallationAddress, ZohoID, FullName);
+    await uisp.insert_customer(IDCompany, CompanyUserID, IDCompanyState, IDCompanyCity, PaymentTypeID, FullName, FirstName, Lastname, Email, Phone, CardId, CustomerType, PaymentDate, Comments, ZohoID, CreateAt, FiscalAddress, InstallationAddress, ZohoID, FullName);
     console.log("CLIENTE_INSERTADO ===>", ZohoID)
+  }
+
+}
+
+module.exports.addSubscriptions = async() => {
+  //Obtener los ids de todas las suscripciones
+  let has_more_page = true;
+  let array_subscription_id = [];
+  let array_subscription_detail = [];
+  let page = 1;
+
+  while (has_more_page) {
+    const {domain_url, organizationid, oauthtoken} = await zoho_access_token('63754c44');
+    const list_of_all_subscription = await zoho.get_listing_all_subscriptions(domain_url, organizationid, oauthtoken, page);
+
+    for (let subscription of list_of_all_subscription.subscriptions) {
+      array_subscription_id = array_subscription_id.concat(subscription.subscription_id);
+    }
+
+    has_more_page = list_of_all_subscription.page_context.has_more_page;
+    has_more_page = false;
+
+    console.log(`PAGE ==> ${page}, CANTIDAD DE ID DE SUSCRIPCIONES ==> ${array_subscription_id.length}`);
+    page += 1;
+  }
+
+  for(let subscription_id of array_subscription_id) {
+    const {domain_url, organizationid, oauthtoken} = await zoho_access_token('63754c44');
+    const subscription_details = await zoho.retrieve_subscription_details(domain_url, organizationid, oauthtoken, subscription_id);
+    array_subscription_detail = array_subscription_detail.concat(subscription_details.subscription);
+    console.log(`CANTIDAD DE SUSCRIPCIONES RECUPERADAS ==> ${array_subscription_detail.length}`);
+  }
+
+  console.log("CANTIDAD TOTAL DE SUSCRIPCIONES ===>", array_subscription_detail.length);
+
+  for (let subscription of array_subscription_detail) {
+    //Data
+    let CompanyID = 1;
+    let StateID = 1;
+    let CityID = 1;
+    let SubscriptionID = subscription.subscription_id;
+
+    //Contratista
+    let cf_contratista_unformatted = subscription.custom_field_hash.cf_contratista_unformatted;
+    let ContractorName;
+    let ContactName;
+    if(cf_contratista_unformatted !== "" && cf_contratista_unformatted !== null && cf_contratista_unformatted !== undefined) {
+      ContractorName = cf_contratista_unformatted;
+      ContactName = cf_contratista_unformatted;
+    }
+    else {
+      ContractorName = null;
+      ContactName = cf_contratista_unformatted;
+    }
+
+    let Email = null;
+    let Phone = null;
+
+    //RIF
+    const search_array = [' ', '-', '.', '*'];
+    const replace_with = '';
+
+    let RIF = (subscription.customer.cf_rif_unformatted) ? subscription.customer.cf_rif_unformatted.trim() : '';
+
+    for(let character of search_array) {
+      RIF = RIF.split(character).join(replace_with);
+    }
+
+    let Address = null;
+    let Comments = null;
+
+    let subscription_custom_field_contratista = subscription.custom_fields.filter(cf => cf.label === "Contratista")[0];
+
+    let CustomFieldId = (subscription_custom_field_contratista) ? subscription_custom_field_contratista.customfield_id : null;
+
+    let SelectedOptionId = (subscription_custom_field_contratista) ? subscription_custom_field_contratista.selected_option_id : null;
+
+    let SalespersonId = (subscription.salesperson_id !== '') ? subscription.salesperson_id : null;
+
+    let Salesperson = (subscription.salesperson_name !=='') ? subscription.salesperson_name: null;
+
+    let CustomerIDZoho = subscription.customer.customer_id;
+
+    await uisp.company_contractor(CompanyID, StateID, CityID, SubscriptionID, ContractorName, ContactName, Email, Phone, RIF, Address, Comments, CustomFieldId, SelectedOptionId, SalespersonId, Salesperson, CustomerIDZoho);
+    console.log("SUBSCRIPCION_INSERTADA ===>", SubscriptionID);
   }
 
 }

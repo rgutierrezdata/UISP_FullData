@@ -421,6 +421,44 @@ exports.list_of_all_customers = async(domain_url, organizationid, oauthtoken, pa
 
 }
 
+exports.get_listing_all_subscriptions = async(domain_url, organizationid, oauthtoken, page) => {
+  const URL = `https://${domain_url}/api/v1/subscriptions?filter_by=SubscriptionStatus.All&page=${page}`;
+
+  const headers = {
+    "X-com-zoho-subscriptions-organizationid": organizationid,
+    "Authorization": `Zoho-oauthtoken ${oauthtoken}`
+  }
+
+  try {
+    const data = await axios.get(URL, {headers: headers})
+    return data.data;
+  }
+  catch(error) {
+    logger.log('info',`File: zoho.js - Function Name: get_listing_all_subscriptions - Error ${error.response.data.message} - page ===> ${page}`);
+    console.log("GET_LISTING_ALL_SUBSCRIPTIONS ===>", error);
+    return error;
+  }
+}
+
+exports.retrieve_subscription_details = async(domain_url, organizationid, oauthtoken, subscription_id) => {
+  const URL = `https://${domain_url}/api/v1/subscriptions/${subscription_id}`;
+
+  const headers = {
+    "X-com-zoho-subscriptions-organizationid": organizationid,
+    "Authorization": `Zoho-oauthtoken ${oauthtoken}`
+  }
+
+  try {
+    const data = await axios.get(URL, {headers: headers})
+    return data.data;
+  }
+  catch(error) {
+    logger.log('info',`File: zoho.js - Function Name: retrieve_subscription_details - Error ${error.response.data.message} - page ===> ${page}`);
+    console.log("RETRIEVE_SUBSCRIPTION_DETAILS ===>", error);
+    return error;
+  }
+}
+
 
 //Cancelar o colocar como expiradas subscripciones que tienen estado distinto de activo
 

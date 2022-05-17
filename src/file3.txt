@@ -244,3 +244,18 @@ SELECT * FROM uispMigrationData
 WHERE ActiveFrom LIKE '%2022-03-10%'
 OR ActiveFrom LIKE '%2022-03-11%'
 ORDER BY ActiveFrom ASC
+
+
+
+//Del visor...
+
+-- 1. Traer subscription_id del listado
+-- 2. Consumir detalle de suscripciones
+--Name ---> cf_contratista_unformatted
+--RIF ---> esta en objecto cliente
+--	Address --> null
+--ContactName ---> cf_contratista_unformatted
+--Email --> null
+--Phone --> null
+--Comments --> null
+--IsActive --> 1

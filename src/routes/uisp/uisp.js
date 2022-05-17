@@ -617,7 +617,7 @@ exports.updateClientsName = async(customer_id, subscription_id, display_name) =>
 
 }
 
-exports.insert_customer = async (IDCompany, CompanyUserID, IDCompanyState, IDCompanyCity, PaymentTypeID, FullName, Email, Phone, CardId, CustomerType, PaymentDate, Comments, ZohoID, CreateAt, FiscalAddress, InstallationAddress) => {
+exports.insert_customer = async (IDCompany, CompanyUserID, IDCompanyState, IDCompanyCity, PaymentTypeID, FullName, FirstName, LastName, Email, Phone, CardId, CustomerType, PaymentDate, Comments, ZohoID, CreateAt, FiscalAddress, InstallationAddress) => {
   let pool;
 
   try {
@@ -630,6 +630,8 @@ exports.insert_customer = async (IDCompany, CompanyUserID, IDCompanyState, IDCom
       .input('IDCompanyCity', mssql.Int, IDCompanyCity)
       .input('PaymentTypeID', mssql.Int, PaymentTypeID)
       .input('FullName', mssql.VarChar, FullName)
+      .input('FirstName', mssql.VarChar, FirstName)
+      .input('LastName', mssql.VarChar, LastName)
       .input('Email', mssql.VarChar, Email)
       .input('Phone', mssql.VarChar, Phone)
       .input('CardId', mssql.VarChar, CardId)
@@ -647,7 +649,9 @@ exports.insert_customer = async (IDCompany, CompanyUserID, IDCompanyState, IDCom
         IDCompanyState, 
         IDCompanyCity, 
         PaymentTypeID, 
-        Fullname, 
+        DisplayName, 
+        FirstName,
+        LastName,
         Email, 
         Phone, 
         CardId, 
@@ -665,6 +669,8 @@ exports.insert_customer = async (IDCompany, CompanyUserID, IDCompanyState, IDCom
         @IDCompanyCity,
         @PaymentTypeID,
         @FullName, 
+        @FirstName, 
+        @LastName,
         @Email, 
         @Phone, 
         @CardId, 
@@ -685,5 +691,81 @@ exports.insert_customer = async (IDCompany, CompanyUserID, IDCompanyState, IDCom
     console.log("INSERT_CUSTOMER_ERROR ===> ", error);
   }
 }
+
+exports.company_contractor = async (CompanyID, StateID, CityID, SubscriptionID, ContractorName, ContactName, Email, Phone, RIF, Address, Comments, CustomFieldId, SelectedOptionId, SalespersonId, Salesperson, CustomerIDZoho) => {
+  let pool;
+
+  try {
+    pool = await mssql.connect(process.env.CONNECTION_STRING_GOSUITE); 
+
+    let result = await pool.request()
+      .input('CompanyID', mssql.Int, CompanyID)
+      .input('StateID', mssql.Int, StateID)
+      .input('CityID', mssql.Int, CityID)
+      .input('SubscriptionID', mssql.VarChar, SubscriptionID)
+      .input('ContractorName', mssql.VarChar, ContractorName)
+      .input('ContactName', mssql.VarChar, ContactName)
+      .input('Email', mssql.VarChar, Email)
+      .input('Phone', mssql.VarChar, Phone)
+      .input('RIF', mssql.VarChar, RIF)
+      .input('Address', mssql.VarChar, Address)
+      .input('Comments', mssql.VarChar, Comments)
+      .input('CustomFieldId', mssql.VarChar, CustomFieldId)
+      .input('SelectedOptionId', mssql.VarChar, SelectedOptionId)
+      .input('SalespersonId', mssql.VarChar, SalespersonId)
+      .input('Salesperson', mssql.VarChar, Salesperson)
+      .input('CustomerIDZoho', mssql.VarChar, CustomerIDZoho)
+      
+      .query(`
+      INSERT INTO company_contractor
+      (
+        CompanyID, 
+        StateID, 
+        CityID, 
+        SubscriptionID, 
+        ContractorName, 
+        ContactName, 
+        Email, 
+        Phone, 
+        RIF, 
+        Address, 
+        Comments, 
+        CustomFieldID, 
+        SelectedOptionID, 
+        SalespersonID, 
+        Salesperson, 
+        CustomerIDZoho
+      )
+      VALUES
+      (
+        @CompanyID,
+        @StateID, 
+        @CityID,
+        @SubscriptionID,
+        @ContractorName,
+        @ContactName,
+        @Email,
+        @Phone,
+        @RIF,
+        @Address,
+        @Comments,
+        @CustomFieldId,
+        @SelectedOptionId,
+        @SalespersonId,
+        @Salesperson,
+        @CustomerIDZoho
+      )
+      `
+    );
+
+    return result.rowsAffected[0];
+  }
+  catch(error) {
+    logger.log(`subscription_id; - data ===> ${SubscriptionID};`);
+    console.log("COMPANY_CONTRACTOR _ERROR ===> ", error);
+  }
+}
+
+
 
 
