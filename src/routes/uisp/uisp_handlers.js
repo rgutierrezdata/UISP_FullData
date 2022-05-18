@@ -2407,7 +2407,6 @@ module.exports.addCustomers = async() => {
     const list_all_customers = await zoho.list_of_all_customers(domain_url, organizationid, oauthtoken, page);
     array_customers = array_customers.concat(list_all_customers.customers);
     has_more_page = list_all_customers.page_context.has_more_page;
-    has_more_page = false;
     console.log(`PAGE ==> ${page}, CANTIDAD DE CLIENTES ==> ${array_customers.length}`);
     page += 1;
   }
@@ -2468,8 +2467,7 @@ module.exports.addSubscriptions = async() => {
     }
 
     has_more_page = list_of_all_subscription.page_context.has_more_page;
-    has_more_page = false;
-
+   
     console.log(`PAGE ==> ${page}, CANTIDAD DE ID DE SUSCRIPCIONES ==> ${array_subscription_id.length}`);
     page += 1;
   }
